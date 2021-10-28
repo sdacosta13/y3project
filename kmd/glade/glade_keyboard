@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+import gi, os
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
+from ctypes import *
+
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+IPC_CREAT = 512
+libc = CDLL("", use_errno=True, use_last_error=True) # library provides C compatible data structures
+# int shmget(key_t key, size_t size, int shmflg);
+shmget = libc.shmget
+shmget.restype = c_int
+shmget.argtypes = (c_int, c_size_t, c_int)
+
+# void* shmat(int shmid, const void *shmaddr, int shmflg);
+shmat = libc.shmat
+shmat.restype = c_void_p
+shmat.argtypes = (c_int, c_void_p, c_int)
+
+# int shmdt(const void *shmaddr);
+shmdt = libc.shmdt
+shmdt.restype = c_int
+shmdt.argtypes = (c_void_p,)
+
+class SHMStruct(Structure):
+  _fields_ = [
+    ("button_state", c_uint8 * 62),
+    ("button_time", c_uint32 * 62)
+  ]
+  def __str__(self):
+    return "(" + ",".join([str(x) for x in self.button_state]) + ")"
+
+key = 123456
+shm_id = shmget(key, sizeof(SHMStruct), 0o666 | IPC_CREAT)
+if(shm_id < 0):
+    raise Exception("Shmget() failed")
+ptr_val = shmat(shm_id, 0, 0)
+if not ptr_val: raise Exception("shmat() failed")
+ptr = cast(ptr_val, POINTER(SHMStruct))
+shm_struct = ptr.contents
+
+def convert_name(name):
+    return int(name[2:])
+
+
+class WindowHandler:
+  def main_window_destroy_cb(self, *args):
+    Gtk.main_quit()
+
+  def k_pressed(self, button, *args):
+    name = Gtk.Buildable.get_name(button)
+    id = convert_name(name)
+    shm_struct.button_state[id] = 1
+
+
+  def k_released(self, button, *args):
+    name = Gtk.Buildable.get_name(button)
+    id = convert_name(name)
+    shm_struct.button_state[id] = 0
+
+builder = Gtk.Builder()
+
+builder.add_from_file(dir_path + "/keyboard.glade")
+builder.connect_signals(WindowHandler())
+
+window = builder.get_object("main")
+window.show_all()
+
+Gtk.main()

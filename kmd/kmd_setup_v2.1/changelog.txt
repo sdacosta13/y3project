@@ -1,0 +1,6 @@
+kmd_setup v2:
+  jimulator_int_support.patch: added interrupt support
+  jimulator_plugins/lib_timer.c: added interrupt support and msec timer
+  jimulator_plugins/lib_pio_keypad.c: added interrupts on buttons A & B
+  
+added 

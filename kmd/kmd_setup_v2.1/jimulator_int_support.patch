@@ -1,0 +1,246 @@
+--- src/jimulator.c
++++ src/jimulator.c
+@@ -78,6 +78,7 @@
+ void comm(struct pollfd*);
+ 
+ int emulsetup (void);
++void irq_insert_handlers();
+ void save_state(uchar);
+ void initialise (unsigned int start_address, int initial_mode);
+ void execute (unsigned int op_code);
+@@ -99,6 +100,8 @@
+ void breakpoint ();
+ void undefined ();
+ void data_abort();
++void do_irq();
++void do_fiq();
+ 
+ void mrs (unsigned int op_code);
+ void msr (unsigned int op_code);
+@@ -206,6 +209,7 @@
+ typedef boolean (* constructor) (uchar*, uchar*);
+ typedef boolean (* destructor)  (uchar*);
+ typedef boolean (* svccall)   (unsigned int, uchar*);
++typedef void    (* irqcall)   (u_int8_t*, u_int8_t*);     // (irq, fiq)
+ typedef boolean (* memrcall)  (unsigned int, unsigned int*, int, boolean, boolean, int, boolean*);
+ typedef boolean (* memwcall)  (unsigned int, unsigned int,  int, boolean, int, boolean*);
+ typedef boolean (* coprocall) (unsigned int, unsigned int);
+@@ -216,6 +220,7 @@
+ constructor                constructor;
+ destructor                 destructor;
+ svccall                    svc_handler;
++irqcall                    irq_handler;
+ memrcall                   mem_r_handler;
+ memwcall                   mem_w_handler;
+ coprocall                  copro_handler;
+@@ -1337,10 +1342,140 @@
+ 
+   next_file_handle = 1;
+ 
++  irq_insert_handlers(); // insert internal irq handler plugin
++
+   initialise(0, initial_mode);
+ 
+   return 0;
+ }
++
++
++/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
++// handler for the irq addresses 0xf200_0000
++#define IRQ_BASE_ADDR     0xf2000000
++#define IRQ_REG_IRQ_EN    IRQ_BASE_ADDR + 0x0
++#define IRQ_REG_IRQ_MASK  IRQ_BASE_ADDR + 0x1
++#define IRQ_REG_FIQ_EN    IRQ_BASE_ADDR + 0x2
++#define IRQ_REG_FIQ_MASK  IRQ_BASE_ADDR + 0x3
++#define IRQ_LAST_ADDR     IRQ_REG_FIQ_MASK
++
++u_int8_t irq_assert, fiq_assert;
++u_int8_t irq_mask,   fiq_mask;
++boolean irq_mem_r_handler(unsigned int address, unsigned int *data, int size,
++    boolean sign, boolean T, int source, boolean* abort) {
++  if (address >= IRQ_BASE_ADDR && address <= IRQ_LAST_ADDR) {
++    //fprintf(stderr, "IRQ: mem_read(%x, %d)\n", address, size);
++    if (size == 1) {
++      *abort = FALSE;
++        switch(address) {
++          case IRQ_REG_IRQ_EN:
++            *data = irq_assert;
++            break;
++          case IRQ_REG_IRQ_MASK:
++            *data = irq_mask;
++            break;
++          case IRQ_REG_FIQ_EN:
++            *data = fiq_assert;
++            break;
++          case IRQ_REG_FIQ_MASK:
++            *data = fiq_mask;
++            break;
++        }
++      return TRUE;
++    } else {
++      *abort = TRUE;
++      return TRUE;
++    }
++  } else {
++    return FALSE;
++  }
++}
++
++// abort all writes
++boolean irq_mem_w_handler(unsigned int address, unsigned int data, int size,
++    boolean T, int source, boolean* abort) {
++  if (address >= IRQ_BASE_ADDR && address <= IRQ_LAST_ADDR) {
++    //fprintf(stderr, "IRQ: mem_write(%x, %d, %x)\n", address, size, data);
++    if (size == 1) {
++      *abort = FALSE;
++        switch(address) {
++          case IRQ_REG_IRQ_EN:
++            *abort = TRUE;
++            break;
++          case IRQ_REG_IRQ_MASK:
++            irq_mask = data;
++            break;
++          case IRQ_REG_FIQ_EN:
++            *abort = TRUE;
++            break;
++          case IRQ_REG_FIQ_MASK:
++            fiq_mask = data;
++            break;
++        }
++      return TRUE;
++    } else {
++      *abort = TRUE;
++      return TRUE;
++    }
++  } else {
++    return FALSE;
++  }
++}
++
++// insert a new internal plugin to handle IRQ and FIQ
++void irq_insert_handlers() {
++  fprintf(stderr, "Inserting internal irq plugin\n");
++  so_handler_entry *p_new = malloc(sizeof(so_handler_entry));    /* New entry */
++  p_new->constructor    = NULL;
++  p_new->destructor     = NULL;
++  p_new->svc_handler    = NULL;               /* SVC function pointer    */
++  p_new->irq_handler    = NULL;               /* IRQ function pointer    */
++  p_new->mem_r_handler  = irq_mem_r_handler;  /* Memory function pointer */
++  p_new->mem_w_handler  = irq_mem_w_handler;  /* Memory function pointer */
++  p_new->copro_handler  = NULL;               /* Coprocessor op. pointer */
++  p_new->signal_handler = NULL;               /* Signal handler pointer  */
++  p_new->lib            = NULL;               /* Library handle          */
++  p_new->has_string     = FALSE;              /* Owns some memory        */
++  p_new->name           = "[internal] IRQ";   /* Library name pointer    */
++  p_new->next           = NULL;               /* Link to next entry      */
++
++  if (so_handler_list == NULL) {
++    so_handler_list = p_new;          /* First */
++  } else {                                             /* Find end of chain */
++    so_handler_entry *p_temp = so_handler_list;
++    while (p_temp->next != NULL)
++      p_temp = p_temp->next;
++    p_temp->next = p_new;                               /* ... and append */
++  }
++  
++  irq_assert = 0;
++  irq_mask = 0;
++  fiq_assert = 0;
++  fiq_mask = 0;
++}
++
++
++// poll loaded modules to see if IRQ or FIQ is asserted
++void irq_poll(u_int8_t *irq, u_int8_t *fiq) {
++  //fprintf(stderr, "performing irq_polls...\n");
++  so_handler_entry *p_handler_entry = so_handler_list;
++  *irq = 0;
++  *fiq = 0;
++  while ((p_handler_entry != NULL) && (status != CLIENT_STATE_RESET)) {
++    if (p_handler_entry->irq_handler != NULL) {
++      //fprintf(stderr, "  irq_poll querying %s...\n", p_handler_entry->name);
++      u_int8_t this_irq, this_fiq;
++      p_handler_entry->irq_handler(&this_irq, &this_fiq);
++      *irq = *irq | this_irq;
++      *fiq = *fiq | this_fiq;
++    } else {
++      //fprintf(stderr, "  irq_poll skipping %s...\n", p_handler_entry->name);
++    }
++    p_handler_entry = p_handler_entry->next;
++  }
++}
++
++
+ 
+ /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+ 
+@@ -1411,6 +1546,18 @@
+ /* - - - - - - - - - - - - - end breakpoint - - - - - - - - - - - - - - - - - */
+ 
+ /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
++
++
++// poll modules for interrupts
++irq_poll(&irq_assert, &fiq_assert);
++
++if ((fiq_mask & fiq_assert) && !(cpsr & FF_MASK)) { // handle fiq if enabled
++  do_fiq();
++  return;
++} else if ((irq_mask & irq_assert) && !(cpsr & IF_MASK)) {  // handle irq if enabled
++  do_irq();
++  return;
++}
+ 
+ instr_addr = get_reg(15, REG_CURRENT) - instruction_length();
+ last_addr  = get_reg(15, REG_CURRENT) - instruction_length();
+@@ -2422,6 +2569,24 @@
+ cpsr = (cpsr & ~MODE_MASK & ~TF_MASK) | abt_mode | IF_MASK;
+ put_reg (14, get_reg (15, REG_CURRENT), REG_CURRENT);
+ put_reg (15, 0x00000010, REG_CURRENT);
++return;
++}
++
++void do_irq()
++{
++spsr[irq_mode] = cpsr; // unset mode&thumb, set mode&irq
++cpsr = (cpsr & ~MODE_MASK & ~TF_MASK) | irq_mode | IF_MASK;
++put_reg (14, get_reg (15, REG_CURRENT), REG_CURRENT);
++put_reg (15, 0x00000018, REG_CURRENT);
++return;
++}
++
++void do_fiq()
++{
++spsr[fiq_mode] = cpsr; // unset mode&thumb, set mode&irq&fiq
++cpsr = (cpsr & ~MODE_MASK & ~TF_MASK) | fiq_mode | IF_MASK | FF_MASK;
++put_reg (14, get_reg (15, REG_CURRENT), REG_CURRENT);
++put_reg (15, 0x0000001c, REG_CURRENT);
+ return;
+ }
+ 
+@@ -4332,6 +4497,7 @@
+ constructor p_constructor;
+ destructor  p_destructor;
+ svccall   p_svc_handler;
++irqcall   p_irq_handler;
+ memrcall  p_mem_r_handler;
+ memwcall  p_mem_w_handler;
+ coprocall p_copro_handler;
+@@ -4354,6 +4520,8 @@
+   p_destructor     = dlsym (lib, "destructor");           /* Look for handler */
+   if (dlerror() == NULL) nothing_found = FALSE;              /* Found handler */
+   p_svc_handler    = dlsym (lib, "svc_handler");          /* Look for handler */
++  if (dlerror() == NULL) nothing_found = FALSE;              /* Found handler */
++  p_irq_handler    = dlsym (lib, "irq_handler");          /* Look for handler */
+   if (dlerror() == NULL) nothing_found = FALSE;              /* Found handler */
+   p_mem_r_handler  = dlsym (lib, "mem_r_handler");        /* Look for handler */
+   if (dlerror() == NULL) nothing_found = FALSE;              /* Found handler */
+@@ -4383,6 +4551,7 @@
+       p_new->constructor    = p_constructor;
+       p_new->destructor     = p_destructor;
+       p_new->svc_handler    = p_svc_handler;       /* SVC function pointer    */
++      p_new->irq_handler    = p_irq_handler;       /* IRQ function pointer    */
+       p_new->mem_r_handler  = p_mem_r_handler;     /* Memory function pointer */
+       p_new->mem_w_handler  = p_mem_w_handler;     /* Memory function pointer */
+       p_new->copro_handler  = p_copro_handler;     /* Coprocessor op. pointer */
+

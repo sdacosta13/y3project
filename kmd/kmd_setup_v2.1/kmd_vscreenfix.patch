@@ -1,0 +1,15 @@
+--- ../kmd_setup/komodo/src/vscreen.c	2021-02-02 22:39:04.642623256 +0000
++++ src/vscreen.c	2021-01-22 19:47:23.696138014 +0000
+@@ -91,9 +91,11 @@
+   sprintf(s_LEDs,   "-l%d", LEDs);
+   sprintf(s_refresh, "-r%d", refresh);
+ 
++  //fprintf(stderr, "jim: Loading SHM: key: %d, size: %db\n", key, (width * height * pixel_bytes) + 2);
++
+   if (verbose) s_verbose = "-v"; else s_verbose = "";   /* Pass on debug flag */
+   if (execlp("vscreen", "vscreen", s_width, s_height, s_scale, s_colour, s_key,
+-                         s_verbose, s_LEDs, s_refresh, NULL) < 0)
++                         s_LEDs, s_refresh, s_verbose, NULL) < 0)
+     {
+     g_printerr("%s: ERROR - cannot start virtual screen.\n", my_name);
+     return(-1);

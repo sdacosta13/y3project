@@ -1,0 +1,18 @@
+--- src/callbacks.c	2021-02-02 22:31:33.359182253 +0000
++++ src/callbacks.c	2021-01-22 11:35:08.734416125 +0000
+@@ -3093,11 +3559,13 @@
+       }
+ 
+ //    send_key_to_terminal(key_pressed, comms);
+-    if (((key_pressed >= ' ') && (key_pressed <= 0x7F))
++//    if (((key_pressed >= ' ') && (key_pressed <= 0x7F))
++    if ((event->type == GDK_KEY_PRESS)			// JDG 14/10/13
++    && (((key_pressed >= ' ') && (key_pressed <= 0x7F))
+       || (key_pressed == '\n')
+       || (key_pressed == '\b')
+       || (key_pressed == '\t')
+-      || (key_pressed == '\a')
++      || (key_pressed == '\a'))
+    )
+       send_key_to_terminal(key_pressed, j);
+     }

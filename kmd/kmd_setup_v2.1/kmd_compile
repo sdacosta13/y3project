@@ -1,0 +1,5 @@
+#!/bin/bash
+
+BASENAME=`echo $1 | sed s/[.]s$//`
+`which aasm` -lk ${BASENAME}.kmd $1
+

@@ -1,0 +1,15 @@
+--- src/callbacks.c	2015-10-22 15:50:21.000000000 +0100
++++ src/callbacks.c	2021-01-25 02:27:46.789534549 +0000
+@@ -595,9 +600,9 @@
+ {
+ if (monochrome == 0)
+   {
+-  rgb[0] = colour_scale(pixel >> (g_depth +  b_depth), r_depth, 8);
+-  rgb[1] = colour_scale(pixel >>  b_depth,             g_depth, 8);
+-  rgb[2] = colour_scale(pixel,                         b_depth, 8);
++  rgb[0] = colour_scale(pixel,                        r_depth, 8);
++  rgb[1] = colour_scale(pixel >>  r_depth,            g_depth, 8);
++  rgb[2] = colour_scale(pixel >> (r_depth + g_depth), b_depth, 8);
+   }
+ else
+   {

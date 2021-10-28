@@ -1,0 +1,22 @@
+week 1:
+ Rewrote LCD handling script and started work on the SVC handler
+ LCD now has support for colouring the characters and background separately
+ Ive split the OS into more file then in COMP22712 for better organisation
+ printc has been fixed, it now can print chars without printstr
+ the behaviour of the control characters needs to be tested (specifically the edge cases)
+
+Week 4:
+  Having been working on adding a script for KMD to enable a keyboard similar to the keypad in COMP22712
+  I have been using the microcontrollers environment for KMD and modifying it.
+  The modifications involve writing a C shared object which I can reference in jimulator.conf of the KMD build
+  This C script forks a new proccess which starts a python script which runs the glade user interface
+  The python script then writes the button pushes and releases to a shared memory which the C will in theory
+  Use to generate interrupts and pass the data to an address in komodo
+  There are 62 keys on the keyboard and I intend to make it able to pass uppercase characters to KMD
+
+  Currently the keyboard can cause an interrupt but doesnt write any data to KMD
+
+  The keyboard now writes ascii codes to F1003000 replacing the microcontrollers keypad location
+  Limitations:
+    It only writes the first keypress that it encounters, this should not be a problem as I only have 1 cursor
+    so multiple key presses being detected are unnecessary
