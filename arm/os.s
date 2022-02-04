@@ -8,7 +8,7 @@ NOP                                   ; +20  (14)
 B IRQ_handler                         ; +24  (18)
 B FIQ_handler                         ; +28  (1C)
 
-halt ; should be jumped too, to stop the proccessor
+halt ; should be jumped to, to stop the proccessor
 MOV R0, R0
 B halt
 
@@ -25,9 +25,12 @@ INCLUDE handlers/svc_handler.s
 INCLUDE general/printchar.s
 INCLUDE general/printstring.s
 INCLUDE general/cursorcontrol.s
+INCLUDE general/key_querys.s
+INCLUDE definitions/keyboard_map.s
 INCLUDE definitions/character_definitions.s
 INCLUDE definitions/general_definitions.s
 INCLUDE definitions/OS_definitions.s
+
 
 ALIGN
 INCLUDE general/usercode.s

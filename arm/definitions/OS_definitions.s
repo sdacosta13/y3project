@@ -5,7 +5,9 @@ svc_3 EQU &103 ; get timer
 svc_4 EQU &104 ; button data
 svc_5 EQU &105 ; set cursorposx
 svc_6 EQU &106 ; set cursorposy
-SVC_MAX DEFW &106
+svc_7 EQU &107 ; query_keyboard
+svc_8 EQU &108 ; query_key
+SVC_MAX DEFW &108
 ; stacks are defined here
 cursorposx DEFW 0
 cursorposy DEFW 0
@@ -13,6 +15,7 @@ addr_LCD            DEFW 0xAC00_0000
 addr_LCD_end        DEFW 0xAC03_83FF
 addr_timer          DEFW 0xF1001010
 addr_keyboard       DEFW 0xF1003000
+addr_keyboard_dir   DEFW 0xF1002000
 charwidth       EQU 24
 LCD_linediff    EQU 7680
 lcd_char_length EQU 40

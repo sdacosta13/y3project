@@ -24,6 +24,8 @@ DEFW SVC_3  ; timer
 DEFW SVC_4  ; button data
 DEFW SVC_5  ; set cursorposx
 DEFW SVC_6  ; set cursorposy
+DEFW SVC_7  ; query_keyboard
+DEFW SVC_8  ; query_key
 
 SVC_0
 B halt
@@ -52,6 +54,14 @@ B SVC_exit
 
 SVC_6
 BL set_cursorposy
+B SVC_exit
+
+SVC_7
+BL query_keyboard
+B SVC_exit
+
+SVC_8
+BL query_key
 B SVC_exit
 
 SVC_exit

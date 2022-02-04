@@ -1,14 +1,18 @@
 usercode
-ADRL R0, hi
-ADRL R1, colours
-SVC svc_2
-SVC svc_2
-SVC svc_2
-SVC svc_2
-SVC svc_2
 
-halt2
-B halt2
+
+sam
+SVC svc_7
+MOV R0, R0
+MOV R0, R0
+MOV R0, R0
+MOV R0, R0
+MOV R0, R0
+MOV R0, R0
+MOV R0, R0
+MOV R0, R0
+MOV R0, R0
+B sam
 
 hi DEFB "Hello world!",0
 test DEFB "test 2",0

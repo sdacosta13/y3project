@@ -47,6 +47,8 @@ boolean destructor(unsigned char *name) {
   return TRUE;
 }
 
+// Compile this file with
+// gcc lib_keyboard.c --shared -fPIC -g -o lib_keyboard.so
 
 boolean constructor(unsigned char *name, unsigned char *arguments){
   char *parseptr;
@@ -59,12 +61,13 @@ boolean constructor(unsigned char *name, unsigned char *arguments){
     fprintf(stderr, "%s: ERROR - Fork failed\n", dlibname);
     return FALSE;
   } else if(new_PID ==0){
-    if(execlp("glade/glade_keyboard", "glade/glade_keyboard", NULL) < 0){
+    if(execlp("glade/glade_keyboard", "glade/glade_keyboard", NULL) < 0){  // Needs fix, change to static path
       fprintf(stderr, "%sERROR - execlp failed\n", dlibname);
       return FALSE;
+    } else {
+      return TRUE;
     }
-  }
-  else{
+  } else {
     key_t shm_key = 123456; // arbitrary key
     if((shm_ID = shmget(shm_key, sizeof(struct shm_struct), 0666 | IPC_CREAT)) < 0){  // get the shared memory
       fprintf(stderr, "%s: ERROR shmget FAIL\n", dlibname);
@@ -80,7 +83,7 @@ boolean constructor(unsigned char *name, unsigned char *arguments){
 int lastButtonUpdate = 0;
 int lastButtonState = 0;
 int capslockstate = 0;
-void irq_handler(uint8_t *irq, uint8_t *fiq) {
+void irq_handler(uint8_t *irq, uint8_t *fiq) { // Currently not throwing an interrupt for unpushing, might be due to lost updates
   *fiq = 0;
   *irq = 0;
   for(int i = 0; i < button_nums; i++){
@@ -151,14 +154,14 @@ unsigned int translateToAscii(int position, boolean upperLower){
       96, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61, 8,
       9, 113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 10,
       128, 97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39, 35,
-      129, 92, 112, 120, 99, 118, 98, 110, 109, 44, 46, 47, 129,
+      129, 92, 122, 120, 99, 118, 98, 110, 109, 44, 46, 47, 129,
       130, 131, 132, 32, 133, 134, 135, 130
     };
     unsigned int ascii_characters_upper[] = {
       126, 33, 34, 36, 36, 37, 94, 38, 42, 40, 41, 95, 43, 8,
-      9, 113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 123, 125, 10,
-      128, 97, 115, 100, 102, 103, 104, 106, 107, 108, 58, 64, 126,
-      129, 124, 112, 120, 99, 118, 98, 110, 109, 60, 62, 63, 129,
+      9, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 123, 125, 10,
+      128, 65, 83, 68, 70, 71, 72, 74, 75, 76, 58, 64, 126,
+      129, 124, 90, 88, 67, 86, 66, 78, 77, 60, 62, 63, 129,
       130, 131, 132, 32, 133, 134, 135, 130
     };
     if(!upperLower){
