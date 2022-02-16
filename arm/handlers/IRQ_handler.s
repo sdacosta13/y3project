@@ -1,42 +1,63 @@
 IRQ_handler
 ; TODO handle interrupts
 PUSH {R0 - R12}
+LDR  R1, addr_interrupts
+LDRB R1, [R1]
+CMP R1, #0
+BEQ keyboard_interrupt
+AND R1, R1, #&01
+CMP R1, #&01
+BEQ timer_interrupt
+B halt
+
+timer_interrupt
+B IRQ_quit
+
+keyboard_interrupt
+LDR R1, addr_keyboard_req
+MOV R2, #1
+STR R2, [R1] ; Call for data
 LDR R0, addr_keyboard
 LDRB R0, [R0]
-SUB R0, R0, #32 ; move by table offset
-ADRL R1, addr_keyboard_map_start
-MOV R2, #0
-ADD R1, R1, R0, ASR #3  ; Integer divide ascii code by 8 and add to address base
+SUB R0, R0, #32
+LDR R1, addr_keyboard_dir
+LDRB R1, [R1]
 
-divloop         ; R0 % 8 operation
+; Divide R0 by 8
+MOV R3, #0
+
+continueDivisionLoop
 SUB R0, R0, #8
 CMP R0, #0
-BGE divloop
-ADD R0, R0, #8
-MOV R3, #1
-ADD R0, R2, R3, LSL R0    ; R0 <- 0 + 1 * (2^R0) sets up mask
-
-LDR R4, addr_keyboard_dir
-LDR R4, [R4]
-
-CMP R4, #0
-BNE setKey
-B   unsetKey
+BLT exitDivision
+ADD R3, R3, #1
+B continueDivisionLoop
 
 
-setKey
-LDRB R2, [R1]
-BIC R2, R2, R0
-ORR R2, R2, R0
-STRB R2, [R1]
-B nextIRQ1
-unsetKey
-LDRB R2, [R1]
-BIC R2, R2, R0
-STRB R2, [R1]
-B nextIRQ1
+exitDivision
+ADD R0, R0, #8 ; at this point R0: Remainder R3: Result
+ADRL R4, addr_keyboard_map_start
+ADD R4, R4, R3
+LDRB R7, [R4] ; Get the key byte into R4
+MOV R5, #1
+MOV R6, #0
+ADD R5, R6, R5, LSL R0 ; Get Mask
+
+CMP R1, #0
+BEQ unpushed
+BNE pushed
+
+unpushed
+BIC R7, R7, R5
+STRB R7, [R4]
+B IRQ_quit
+pushed
+ORR R7, R7, R5
+STRB R7, [R4]
+B IRQ_quit
 
 
-nextIRQ1
+
+IRQ_quit
 POP {R0 - R12}
 SUBS PC, LR, #4 ;return to usercode

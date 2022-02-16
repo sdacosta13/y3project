@@ -13,8 +13,6 @@
 typedef int boolean;
 
 #define     button_nums 62
-
-
 int     shm_ID;
 struct  shm_struct {
   uint8_t   button_state[button_nums];
@@ -26,11 +24,11 @@ boolean last_states[button_nums];
 
 // unit information
 #define BLOCKSIZE     4096
-#define BASE_ADDR     0xf1002000
-#define SIMPLE_ADDR   0xf1003000
-#define LAST_ADDR     BASE_ADDR + VALUE_REG
-#define DIRECTION_REG 0   // 'cpu' cycles as reported by steps_reset
-#define VALUE_REG     4   // unix (epoch) second clock
+#define FLAG_ADDR     0xf1002000
+#define DATA_ADDR     0xf1002004
+#define DIR_ADDR      0xf1002008
+//#define DIRECTION_REG 0   // 'cpu' cycles as reported by steps_reset
+//#define VALUE_REG     4   // unix (epoch) second clock
 char    *dlibname; // name given to us in jimulator arguments
 
 // unit state
@@ -40,96 +38,20 @@ uint8_t   drive_value;
 // link to steps counter variable in jimulator
 extern unsigned int steps_reset;
 
-
+//Control
+int mostRecentButton = 0;
+int mostRecentState = 0;
+int capslockstate = 0;
+int dataHeld = 0;
+int dirHeld = 0;
+int flagStatus = 0;
+int dataReady = 0;
+int dirReady = 0;
+boolean first = 1;
 boolean destructor(unsigned char *name) {
   fprintf(stderr, "%s: destructed\n", dlibname);
   free(dlibname);
   return TRUE;
-}
-
-// Compile this file with
-// gcc lib_keyboard.c --shared -fPIC -g -o lib_keyboard.so
-
-boolean constructor(unsigned char *name, unsigned char *arguments){
-  char *parseptr;
-  dlibname = strdup(strtok_r(arguments, " ", &parseptr));
-  for(int i = 0; i < button_nums; i++){
-    last_states[i] = 0;
-  }
-  pid_t new_PID = fork();
-  if(new_PID == -1){
-    fprintf(stderr, "%s: ERROR - Fork failed\n", dlibname);
-    return FALSE;
-  } else if(new_PID ==0){
-    if(execlp("glade/glade_keyboard", "glade/glade_keyboard", NULL) < 0){  // Needs fix, change to static path
-      fprintf(stderr, "%sERROR - execlp failed\n", dlibname);
-      return FALSE;
-    } else {
-      return TRUE;
-    }
-  } else {
-    key_t shm_key = 123456; // arbitrary key
-    if((shm_ID = shmget(shm_key, sizeof(struct shm_struct), 0666 | IPC_CREAT)) < 0){  // get the shared memory
-      fprintf(stderr, "%s: ERROR shmget FAIL\n", dlibname);
-      return FALSE;
-    }
-    if ((shm_ptr = (struct shm_struct *) shmat(shm_ID, NULL, 0)) == (struct shm_struct *) -1) { // attach shared memory
-      fprintf(stderr, "%s: ERROR - cannot attach shared memory.\n", dlibname);
-      return FALSE;
-    }
-    return TRUE;
-  }
-}
-int lastButtonUpdate = 0;
-int lastButtonState = 0;
-int capslockstate = 0;
-void irq_handler(uint8_t *irq, uint8_t *fiq) { // Currently not throwing an interrupt for unpushing, might be due to lost updates
-  *fiq = 0;
-  *irq = 0;
-  for(int i = 0; i < button_nums; i++){
-    if(shm_ptr->button_state[i] != last_states[i]){
-        *irq |= 1 << 7;
-        lastButtonUpdate = i;
-        lastButtonState = shm_ptr->button_state[i];
-        if(i == 28){
-          capslockstate += 1;
-          if(capslockstate > 3) capslockstate = 0;
-        }
-    }
-    last_states[i] = shm_ptr->button_state[i];
-  }
-  //fprintf(stderr, "%s: irq polled irq=%d fiq=%d\n", dlibname, *irq, *fiq);
-}
-
-// abort all writes
-boolean mem_w_handler(unsigned int address, unsigned int data, int size,
-    boolean T, int source, boolean* abort) {
-  if (address >= BASE_ADDR && address <= LAST_ADDR) {
-    if (size == 1 && address % 4 == 0) {
-      *abort = FALSE;
-      switch (address - BASE_ADDR) {
-        case DIRECTION_REG:
-          direction = data;
-          break;
-        case VALUE_REG:
-          drive_value = data;
-          break;
-        default:
-          *abort = TRUE;
-          break;
-      }
-      //fprintf(stderr, "%s: write(%08x) = %d\n", dlibname, address, data);
-    } else {
-      //fprintf(stderr, "%s: write(%08x) aborted\n", dlibname, address);
-      *abort = TRUE;
-    }
-    return TRUE;
-  } else if (address == SIMPLE_ADDR) {
-    *abort = TRUE;
-    return TRUE;
-  } else {
-    return FALSE;
-  }
 }
 unsigned int translateToAscii(int position, boolean upperLower){
     /*
@@ -170,22 +92,111 @@ unsigned int translateToAscii(int position, boolean upperLower){
       return ascii_characters_upper[position];
     }
 }
-boolean mem_r_handler(unsigned int address, unsigned int *data, int size,
-    boolean sign, boolean T, int source, boolean* abort) {
-    *abort = FALSE;
-    if(address == SIMPLE_ADDR){
-      // Replaces Simple PIO address
-      *data = 0; // set byte to 0
-      if(capslockstate == 0 || capslockstate == 1){
-        *data = translateToAscii(lastButtonUpdate, FALSE);
+// Compile this file with
+// gcc lib_keyboard.c --shared -fPIC -g -o lib_keyboard.so
+
+boolean constructor(unsigned char *name, unsigned char *arguments){
+  char *parseptr;
+  dlibname = strdup(strtok_r(arguments, " ", &parseptr));
+  for(int i = 0; i < button_nums; i++){
+    last_states[i] = 0;
+  }
+  pid_t new_PID = fork();
+  if(new_PID == -1){
+    fprintf(stderr, "%s: ERROR - Fork failed\n", dlibname);
+    return FALSE;
+  } else if(new_PID ==0){
+    if(execlp("/home/sam/GitRepos/y3project/kmd/glade/glade_keyboard", "/home/sam/GitRepos/y3project/kmd/glade/glade_keyboard", NULL) < 0){  // Needs fix, change to static path
+      fprintf(stderr, "%sERROR - execlp failed\n", dlibname);
+      return FALSE;
+    } else {
+      return TRUE;
+    }
+  } else {
+    key_t shm_key = 123456; // arbitrary key
+    if((shm_ID = shmget(shm_key, sizeof(struct shm_struct), 0666 | IPC_CREAT)) < 0){  // get the shared memory
+      fprintf(stderr, "%s: ERROR shmget FAIL\n", dlibname);
+      return FALSE;
+    }
+    if ((shm_ptr = (struct shm_struct *) shmat(shm_ID, NULL, 0)) == (struct shm_struct *) -1) { // attach shared memory
+      fprintf(stderr, "%s: ERROR - cannot attach shared memory.\n", dlibname);
+      return FALSE;
+    }
+    return TRUE;
+  }
+}
+
+void irq_handler(uint8_t *irq, uint8_t *fiq) {
+  for(int i = 0; i < button_nums; i++){
+    int dat = shm_ptr->button_state[i];
+    if(dat != last_states[i]){
+      mostRecentState = dat;
+      *irq = 0;
+      *irq |= 1 << 7;
+      if(first){
+        dirReady = 1;
+        dataReady = 1;
+        first = 0;
       }
-      else{
-        *data = translateToAscii(lastButtonUpdate, TRUE);
+      if(i == 28){
+        capslockstate += 1;
+        if(capslockstate > 3) capslockstate = 0;
+      }
+      if(capslockstate == 0|| capslockstate == 1){
+        mostRecentButton = translateToAscii(i, FALSE);
+      } else {
+        mostRecentButton = translateToAscii(i, TRUE);
+      }
+    }
+    last_states[i] = dat;
+  }
+}
+
+boolean mem_w_handler(unsigned int address, unsigned int data, int size,
+    boolean T, int source, boolean* abort) {
+    if(address == FLAG_ADDR){
+      *abort = FALSE;
+      if(data == 1){
+        dirReady = 1;
+        dataReady = 1;
       }
       return TRUE;
-    } else if(address == BASE_ADDR) {
-      *data = 0;
-      *data |= lastButtonState;
+    } else if (address == DATA_ADDR){
+      *abort = TRUE;
+      return TRUE;
+    } else if(address == DIR_ADDR){
+      *abort = TRUE;
+      return TRUE;
+    } else {
+      return FALSE;
+    }
+}
+
+boolean mem_r_handler(unsigned int address, unsigned int *data, int size,
+    boolean sign, boolean T, int source, boolean* abort) {
+    if(address == FLAG_ADDR){
+      *abort = FALSE;
+      *data = dataReady;
+      return TRUE;
+    } else if(address == DATA_ADDR){
+      if(dataReady){
+        *data = mostRecentButton;
+        dataHeld = mostRecentButton;
+        dataReady = 0;
+      } else {
+        *data = dataHeld;
+      }
+      *abort = FALSE;
+      return TRUE;
+    } else if(address == DIR_ADDR){
+      *abort = FALSE;
+      if(dirReady){
+        *data = mostRecentState;
+        dirHeld = mostRecentState;
+        dirReady = 0;
+      } else {
+        *data = dirHeld;
+      }
       return TRUE;
     } else {
       return FALSE;

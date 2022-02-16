@@ -1,6 +1,14 @@
 svc_handler
 ; TODO: handle SVC calls
 PUSH {LR}
+PUSH {R14}
+PUSH {R0}
+MRS  R0, CPSR                       ;Enables interrupts while in SVC
+BIC  R0, R0, #&C0                   ;Not sure if this is ok currently
+MSR  CPSR_c, R0
+POP {R0}
+
+
 LDR R14, [LR, #-4]                  ; Read the caller svc instruction into R14
 BIC R14, R14, #&FF000000            ; Clear the opcode (24 bit can now be read)
 
@@ -26,6 +34,8 @@ DEFW SVC_5  ; set cursorposx
 DEFW SVC_6  ; set cursorposy
 DEFW SVC_7  ; query_keyboard
 DEFW SVC_8  ; query_key
+DEFW SVC_9  ; create_thread
+DEFW SVC_10 ; end_thread
 
 SVC_0
 B halt
@@ -64,12 +74,21 @@ SVC_8
 BL query_key
 B SVC_exit
 
+SVC_9
+BL create_thread
+B SVC_exit
+
+SVC_10
+BL end_thread
+B SVC_exit
+
 SVC_exit
 PUSH {R0}
 MRS R0, CPSR
 BIC R0, R0, #&C0
 MSR CPSR_c, R0
 POP {R0}
+POP {R14}
 POP {LR}
 MOVS PC, LR                        ; Return to usercode, change mode
 

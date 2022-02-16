@@ -41,9 +41,20 @@ ADRL SP, stackend_svc
 LDR  R1, addr_interrupts_mask
 LDRB R0, [R1]
 BIC  R0, R0, #&C1
-ORR  R0, R0, #&C0
+ORR  R0, R0, #&C1
 STRB R0, [R1]
 
+;wipe debounce map
+ADRL R1, addr_keyboard_map_start
+ADRL R2, addr_keyboard_map_end
+MOV  R3, #0
+debounce_wipe_loop
+STRB R3, [R1], #1
+CMP R1, R2
+BNE debounce_wipe_loop
+LDR R1, addr_keyboard_req
+MOV R2, #1
+STRB R2, [R1]
 
 MRS  R0, CPSR
 BIC  R0, R0, #&C0             ;set bit 6,7 to 0 to enable FIQ and IRQ

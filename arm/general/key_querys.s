@@ -1,53 +1,42 @@
 query_keyboard
 ; Reads first key found into R3
 ; If not key is found R3 <- 0
-PUSH {R4 - R11}
-ADRL R4, addr_keyboard_map_start
-MOV R10, R4
-ADRL R5, addr_keyboard_map_end
-ADD R5, R5, #4 ; for making loop easier
+PUSH {LR}
+PUSH {R4 - R13}
+ADRL R4, addr_keyboard_map_start ; R4: start of map
+ADRL R5, addr_keyboard_map_end   ; R5: end of map
+MOV  R6, #1                      ; R6: bit mask
+MOV  R8, #2                      ; R8: multiplier
+MOV  R11, #32                    ; R11: ascii character
+                                 ; R7: byte data
+                                 ; R9: working reg AND data
+keyboard_byte_loop
+MOV R6, #1
+LDRB R7, [R4], #1
+keyboard_bit_loop
 
-continueKeyScan
-LDR R6, [R4], #4
-CMP R6, #0
-BNE keyseen
+;actual checks perfromed
+AND R9, R7, R6
+CMP R9, R6
+MOVEQ R3, R11
+BEQ quit
+
+
+ADD R11, R11, #1
+MUL R6, R6, R8
+CMP R6, #256
+BNE keyboard_bit_loop
 CMP R4, R5
-BNE continueKeyScan
+BNE keyboard_byte_loop
 MOV R3, #0
 
-query_keyboard_end
-POP {R4 - R11}
+quit
+POP {R4 - R13}
+POP {LR}
 MOV PC, LR
 
-keyseen             ; fires there is a key in the map active
-MOV R7, #1
-MOV R9, #1
-B keyseenloopstart1
-
-keyseenloopstart2
-ADD R9, R9, #1
-ADD R7, R7, R7
-keyseenloopstart1
-AND R8, R7, R6
-CMP R8, R7
-BEQ keyfound
-B keyseenloopstart2 ; while loop as positive number is seen
-
-keyfound            ; fires once the location can be determined
-SUB R4, R4, #4      ; decrement due to post increment
-SUB R10, R4, R10    ; work out which byte ascii code is in
-MOV R11, #8
-MUL R10, R10, R11
-ADD R10, R10, R9
-ADD R3, R10, #31   ; ascii code = (byte addressed - keymap base) * 8 + bit accessed + ascii offset - 1
-B query_keyboard_end
-
-
 query_key
-; Checks the ASCII code in R3 against they keymap
-; if (key pressed) R3 <- 1
-; else             R3 <- 0
-PUSH {R4 - R11}
-
-POP {R4 - R11}
+; Check if R3 ascii character is in map
+PUSH {LR}
+POP {LR}
 MOV PC, LR

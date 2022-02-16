@@ -1,18 +1,22 @@
 usercode
+INCLUDE queue_testing.s
 
 
-sam
-SVC svc_7
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-B sam
+
+
+
+
+
+
+
+;ADRL R1, colours
+;sam
+;SVC svc_7
+;CMP R3, #0
+;BEQ sam
+;MOV R0, R3
+;SVC svc_1
+;B sam
 
 hi DEFB "Hello world!",0
 test DEFB "test 2",0

@@ -1,5 +1,5 @@
 ORIGIN &00000000
-B hard_reset                       ; +0   (00)
+B hard_reset                          ; +0   (00)
 B undefined_instruction_handler       ; +4   (04)
 B svc_handler                         ; +8   (08)
 B prefetch_abort_handler              ; +12  (0C)
@@ -26,6 +26,8 @@ INCLUDE general/printchar.s
 INCLUDE general/printstring.s
 INCLUDE general/cursorcontrol.s
 INCLUDE general/key_querys.s
+INCLUDE general/threading.s
+INCLUDE general/queue.s
 INCLUDE definitions/keyboard_map.s
 INCLUDE definitions/character_definitions.s
 INCLUDE definitions/general_definitions.s
