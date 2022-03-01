@@ -25,7 +25,8 @@ lcd_char_length EQU 40
 lcd_char_height EQU 30
 
 ALIGN
-MAX_THREADS EQU 16
+MAX_THREADS EQU 4
+
 ; Define the space for address queues
 ; Queues are defined as a Word of data followed by X words
 
@@ -37,9 +38,37 @@ thread_queue_IO_items DEFW 0
 addr_thread_IO_queue_start DEFS MAX_THREADS * 4
 addr_thread_IO_queue_end
 
+
+; Example of addr_thread_queue_registers
+;
+;   +0x00  [PC of thread 1]
+;   +0x01  [PC of thread 2]
+;   +0x02  [PC of thread 3]
+;   +0x03  [PC of thread 4]
+;   +0x04  [R0 of thread 1]
+;   +0x05  [R1 of thread 1]
+;   ..
+;   +0x1E  [R14 of thread 1]
+;   +0x1F  [CPSR of thread 1]
+;   +0x20  [R0 of thread 2]
+;   +0x21  [R1 of thread 2]
+;   ..
+;   +0x2E  [R14 of thread 2]
+;   +0x2F  [CPSR of thread 2]
+
+
+; Note, when naming these address I discovered the max length of a label is 32 characters
+
+thread_queue_register_map DEFS MAX_THREADS * 4
+thread_queue_registers DEFS MAX_THREADS * 4 * 16 ; declares 16 words for each thread
+thread_queue_registers_end                       ; these register are not wiped in reset_handler.s
+
+
+thread_IO_queue_register_map DEFS MAX_THREADS * 4
+thread_IO_queue_registers DEFS MAX_THREADS * 4 * 16 ; declares 16 words for each thread
+thread_IO_queue_registers_end
+
 ALIGN
-
-
 stack_user DEFS &2000
 stackend_user
 

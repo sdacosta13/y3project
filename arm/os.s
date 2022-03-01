@@ -29,9 +29,9 @@ INCLUDE general/key_querys.s
 INCLUDE general/threading.s
 INCLUDE general/queue.s
 INCLUDE definitions/keyboard_map.s
-INCLUDE definitions/character_definitions.s
 INCLUDE definitions/general_definitions.s
 INCLUDE definitions/OS_definitions.s
+INCLUDE definitions/character_definitions.s
 
 
 ALIGN

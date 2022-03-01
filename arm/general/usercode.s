@@ -1,7 +1,26 @@
 usercode
-INCLUDE queue_testing.s
 
 
+
+MOV R0, #0
+MOV R1, #1
+MOV R2, #2
+MOV R3, #3
+MOV R4, #4
+MOV R5, #5
+MOV R6, #6
+MOV R7, #7
+MOV R8, #8
+MOV R9, #9
+MOV R10, #10
+MOV R11, #11
+MOV R12, #12
+ADRL R0, thread_queue_register_map
+STR R1, [R0]
+
+done
+MOV R0, R0
+B done
 
 
 

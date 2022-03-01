@@ -3,7 +3,7 @@ queue_push
 ; IN R0 - Item to push
 ; IN R1 - Pointer to queue (Corrupts to -1 if push fails)
 PUSH {LR}
-PUSH {R2 - R14}
+PUSH {R2 - R12}
 
 ; Check queue for space
 SUB R2, R1, #4 ; Get address of counter
@@ -27,7 +27,7 @@ B queue_push_quit
 fail_push
 MOV R1, #-1
 queue_push_quit
-POP {R2 - R14}
+POP {R2 - R12}
 POP {LR}
 MOV PC, LR
 
@@ -35,7 +35,7 @@ queue_pop
 ; OUT R0 - Item popped
 ; IN  R1 - Pointer to queue (Corrupts to -1 if push fails)
 PUSH {LR}
-PUSH {R2 - R14}
+PUSH {R2 - R12}
 
 ; Check queue is non empty
 SUB R2, R1, #4 ; Get address of counter
@@ -69,7 +69,7 @@ B queue_pop_quit
 queue_pop_fail
 MOV R1, #-1
 queue_pop_quit
-POP {R2 - R14}
+POP {R2 - R12}
 POP {LR}
 MOV PC, LR
 
@@ -77,12 +77,57 @@ queue_utilisation
 ; OUT R0 - Counter Stat
 ; IN  R1 - Pointer to Queue
 PUSH {LR}
-PUSH {R2 - R14}
+PUSH {R2 - R12}
 
 SUB R1, R1, #4
 LDR R0, [R1]
 ADD R1, R1, #4
 
-POP {R2 - R14}
+POP {R2 - R12}
 POP {LR}
 MOV PC, LR
+
+clear_queue
+; IN R1 - Pointer to Queue
+PUSH {LR}
+PUSH {R0}
+PUSH {R2 - R12}
+
+; wipe body
+MOV R0, #0
+MOV R2, #0 ; Counter
+queue_wipe_loop
+STR R0, [R1, R2]
+ADD R2, R2, #1
+CMP R2, #MAX_THREADS
+BNE queue_wipe_loop
+
+; reset item
+SUB R1, R1, #4
+STR R0, [R1]
+ADD R1, R1, #4
+
+POP  {R2 - R12}
+POP  {R0}
+POP  {LR}
+MOV  PC, LR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;

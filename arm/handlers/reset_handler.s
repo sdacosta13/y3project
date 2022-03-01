@@ -26,6 +26,7 @@ STRB R0, [R1], #1
 CMP R2, R1
 BNE screenblankloop
 
+
 ;setup timer
 MOV R0, #0
 LDR R1, addr_timer_compare
@@ -36,6 +37,37 @@ BIC R0, R0, #&03
 ORR R0, R0, #&01
 STR R0, [R1]
 ADRL SP, stackend_svc
+
+; clear queues
+ADRL R1, addr_thread_queue_start
+BL clear_queue
+ADRL R1, addr_thread_IO_queue_start
+BL clear_queue
+
+; wipe old register PCs
+; for regular threads
+ADRL R1, thread_queue_register_map
+MOV R2, #-1 ; write unusual value to PC location to indicate garbage
+MOV R3, #0
+
+thread_register_wipe_loop
+STR R2, [R1], #4
+ADD R3, R3, #1
+CMP R3, #MAX_THREADS
+BNE thread_register_wipe_loop
+
+;for IO threads
+ADRL R1, thread_IO_queue_register_map
+MOV R2, #-1
+MOV R3, #0
+
+thread_IO_register_wipe_loop
+STR R2, [R1], #4
+ADD R3, R3, #1
+CMP R3, #MAX_THREADS
+BNE thread_IO_register_wipe_loop
+
+
 
 ;setup interrupts
 LDR  R1, addr_interrupts_mask

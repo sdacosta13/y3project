@@ -11,6 +11,10 @@ BEQ timer_interrupt
 B halt
 
 timer_interrupt
+; Save state
+B save_registers
+; Run Sheduler
+
 B IRQ_quit
 
 keyboard_interrupt

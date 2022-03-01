@@ -2,7 +2,7 @@ query_keyboard
 ; Reads first key found into R3
 ; If not key is found R3 <- 0
 PUSH {LR}
-PUSH {R4 - R13}
+PUSH {R4 - R12}
 ADRL R4, addr_keyboard_map_start ; R4: start of map
 ADRL R5, addr_keyboard_map_end   ; R5: end of map
 MOV  R6, #1                      ; R6: bit mask
@@ -31,7 +31,7 @@ BNE keyboard_byte_loop
 MOV R3, #0
 
 quit
-POP {R4 - R13}
+POP {R4 - R12}
 POP {LR}
 MOV PC, LR
 
