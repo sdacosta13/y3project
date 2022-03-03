@@ -94,15 +94,16 @@ PUSH {R0}
 PUSH {R2 - R12}
 
 ; wipe body
-MOV R0, #0
+MOV R0, #-1
 MOV R2, #0 ; Counter
 queue_wipe_loop
 STR R0, [R1, R2]
-ADD R2, R2, #1
-CMP R2, #MAX_THREADS
+ADD R2, R2, #4
+CMP R2, #MAX_THREADS * 4
 BNE queue_wipe_loop
 
 ; reset item
+MOV R0, #0
 SUB R1, R1, #4
 STR R0, [R1]
 ADD R1, R1, #4

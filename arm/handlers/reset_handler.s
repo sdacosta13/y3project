@@ -50,11 +50,23 @@ ADRL R1, thread_queue_register_map
 MOV R2, #-1 ; write unusual value to PC location to indicate garbage
 MOV R3, #0
 
-thread_register_wipe_loop
+thread_register_wipe_loop_1
 STR R2, [R1], #4
 ADD R3, R3, #1
 CMP R3, #MAX_THREADS
-BNE thread_register_wipe_loop
+BNE thread_register_wipe_loop_1
+
+
+; wipe previous actual registers
+; for regular threads
+ADRL R1, thread_queue_registers
+ADRL R2, thread_queue_registers_end
+MOV  R3, #0
+thread_register_wipe_loop_2
+STR R3, [R1], #4
+CMP R1, R2
+BNE thread_register_wipe_loop_2
+
 
 ;for IO threads
 ADRL R1, thread_IO_queue_register_map

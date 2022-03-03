@@ -15,12 +15,31 @@ MOV R9, #9
 MOV R10, #10
 MOV R11, #11
 MOV R12, #12
-ADRL R0, thread_queue_register_map
-STR R1, [R0]
 
-done
-MOV R0, R0
-B done
+ADRL R0, thread2
+BL create_thread
+
+
+
+
+thread1
+ADD R2, R2, #1
+B thread1
+
+
+
+thread2
+MOV R1, #0
+thread2_l
+ADD R1, R1, #-1
+B thread2_l
+
+
+
+
+
+
+
 
 
 

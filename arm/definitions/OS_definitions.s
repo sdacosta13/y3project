@@ -32,32 +32,16 @@ MAX_THREADS EQU 4
 
 thread_queue_items DEFW 0
 addr_thread_queue_start DEFS MAX_THREADS * 4
-addr_thread_queue_end
+;addr_thread_queue_end
 
 thread_queue_IO_items DEFW 0
 addr_thread_IO_queue_start DEFS MAX_THREADS * 4
-addr_thread_IO_queue_end
+;addr_thread_IO_queue_end
 
-
-; Example of addr_thread_queue_registers
-;
-;   +0x00  [PC of thread 1]
-;   +0x01  [PC of thread 2]
-;   +0x02  [PC of thread 3]
-;   +0x03  [PC of thread 4]
-;   +0x04  [R0 of thread 1]
-;   +0x05  [R1 of thread 1]
-;   ..
-;   +0x1E  [R14 of thread 1]
-;   +0x1F  [CPSR of thread 1]
-;   +0x20  [R0 of thread 2]
-;   +0x21  [R1 of thread 2]
-;   ..
-;   +0x2E  [R14 of thread 2]
-;   +0x2F  [CPSR of thread 2]
 
 
 ; Note, when naming these address I discovered the max length of a label is 32 characters
+
 
 thread_queue_register_map DEFS MAX_THREADS * 4
 thread_queue_registers DEFS MAX_THREADS * 4 * 16 ; declares 16 words for each thread
@@ -71,6 +55,8 @@ thread_IO_queue_registers_end
 ALIGN
 stack_user DEFS &2000
 stackend_user
+stack_threads DEFS &2000 * MAX_THREADS
+stackend_threads
 
 stack_svc DEFS &1000
 stackend_svc
@@ -80,3 +66,42 @@ stackend_IRQ
 
 stack_FIQ DEFS &1000
 stackend_FIQ
+; Examples
+; thread_queue_register_map + 0x00 : PC (Thread 0)
+; thread_queue_register_map + 0x04 : PC (Thread 1)
+; thread_queue_register_map + 0x08 : PC (Thread 2)
+; thread_queue_register_map + 0x0C : PC (Thread 3)
+; thread_queue_registers + 0x00: ~
+; thread_queue_registers + 0x04: LR  (Thread 0)
+; thread_queue_registers + 0x08: SP  (Thread 0)
+; thread_queue_registers + 0x0C: R12 (Thread 0)
+; thread_queue_registers + 0x10: R11 (Thread 0)
+; thread_queue_registers + 0x14: R10 (Thread 0)
+; thread_queue_registers + 0x18: R9  (Thread 0)
+; thread_queue_registers + 0x1C: R8  (Thread 0)
+; thread_queue_registers + 0x20: R7  (Thread 0)
+; thread_queue_registers + 0x24: R6  (Thread 0)
+; thread_queue_registers + 0x28: R5  (Thread 0)
+; thread_queue_registers + 0x2C: R4  (Thread 0)
+; thread_queue_registers + 0x30: R3  (Thread 0)
+; thread_queue_registers + 0x34: R2  (Thread 0)
+; thread_queue_registers + 0x38: R1  (Thread 0)
+; thread_queue_registers + 0x3C: R0  (Thread 0)
+
+; thread_queue_registers + 0x40: ~
+; thread_queue_registers + 0x44: LR  (Thread 1)
+; thread_queue_registers + 0x48: SP  (Thread 1)
+; thread_queue_registers + 0x4C: R12 (Thread 1)
+; thread_queue_registers + 0x50: R11 (Thread 1)
+; thread_queue_registers + 0x54: R10 (Thread 1)
+; thread_queue_registers + 0x58: R9  (Thread 1)
+; thread_queue_registers + 0x5C: R8  (Thread 1)
+; thread_queue_registers + 0x60: R7  (Thread 1)
+; thread_queue_registers + 0x64: R6  (Thread 1)
+; thread_queue_registers + 0x68: R5  (Thread 1)
+; thread_queue_registers + 0x6C: R4  (Thread 1)
+; thread_queue_registers + 0x70: R3  (Thread 1)
+; thread_queue_registers + 0x74: R2  (Thread 1)
+; thread_queue_registers + 0x78: R1  (Thread 1)
+; thread_queue_registers + 0x7C: R0  (Thread 1)
+; ...
