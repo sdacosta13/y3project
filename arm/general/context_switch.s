@@ -1,100 +1,105 @@
+tempSP DEFW 0
+tempR1 DEFW 0
+
 save_registers
 
-SUB LR, LR, #4 ; accouint for pipelining
-; write LR to queue
+SUB LR, LR, #4 ; account for pipelining
 ADRL R1, addr_thread_queue_start
-MOV R0, LR    ; MOV LR, to parameter register
+MOV R0, LR
+
+PUSH {LR} ; push current PC onto queue
 BL queue_push
-MOV LR, R0    ; Restore LR
+ADRL R1, thread_queue_register_map
+BL get_free_position ;get the next free slot for saving
+POP {LR}
+STR LR, [R1] ; Put thread PC into map
 
-;MOVE R0-R12 to save location
-ADRL R0, thread_queue_register_map
-MOV R1, #0
-
-free_thread_loop  ; Needs work, assumes free thread will be found
-LDR R2, [R0, R1]
-CMP R2, #-1
-ADDNE R1, R1, #4
-BNE free_thread_loop
-STR LR, [R0, R1]  ; Write LR to index
-ADD R1, R1, #4
-ADRL R0, thread_queue_registers
-MOV R2, #16
-MUL R1, R1, R2     ; Offset = previous offset * 16
-ADD R0, R0, R1     ; R0 points to the top of the stack
-
-MOV R3, #0
-register_store_loop
-LDR R4, [SP], #4
-STR R4, [R0, #-4]!
-ADD R3, R3, #1
-CMP R3, #13
-BNE register_store_loop
-
-; A this point 13 registers are stored
-STR SP, [R0, #-4]!
-STR LR, [R0, #-4]! ; Not sure if this is handled properly
-STR LR, [R0, #-4]!
+; calculate base register positions
+MOV R3, #4 * 17
+MUL R0, R0, R3
+ADRL R1, thread_queue_registers
+ADD R1, R1, R0
+; save user CPSR
+MRS R2, SPSR
+STR R2, [R1], #4
+; save user SP, LR
+STMIA R1!, {SP, LR}^
+; make copies of SP and base address
+STR R1, tempR1
+STR SP, tempSP
+; get user registers back
+POP{R0 - R12}
+; setup base registers for user register saving
+LDR SP, tempR1
+; perform save
+STMIA SP!, {R0 - R12}^
+; save thread PC
+STR LR, [SP]
+; get SP_irq back
+LDR SP, tempSP
 B sheduler
+
 sheduler
+; first step is to grab the oldest thread
 ADRL R1, addr_thread_queue_start
 BL queue_pop
-; R0 contians the PC of the thread to switch to
-B restore_registers
-
-
-
-
-
-
-restore_registers
-; takes R1 as thread ident
-
+MOV R1, R0
 ADRL R0, thread_queue_register_map
+; search for thread in register map
+BL search_block
+MOV R2, #-1
+STR R2, [R0]
+MOV R3, #4 * 17
+MUL R1, R1, R3
+ADRL R3, thread_queue_registers
+ADD R3, R3, R1
+; R3 contains base register
+; first restore CPSR
+; second restore SP LR
+; third restore user registers, PC return to code
+LDMIA R3!, {R4}
+MSR CPSR_c, R4
+LDMIA R3!, {SP, LR}^          ; This command causes an interrupt for some reason
+LDMIA R3, {R0 - R12, PC}^     ; Either changing the CPSR enable interrupts which immediately fire
+                              ; Or the timer fires as the context switch is taking too long
+
+
+
+get_free_position
+; IN R1 address of block (MAX_THREADS * 4)
+; OUT R0 index number
+; OUT R1 free address
+PUSH{R2 - R5}
+MOV R0, #0
+get_free_not_found
+LDR R2, [R1], #4
+CMP R2, #-1
+ADDNE R0, R0, #1
+BNE get_free_not_found
+SUB R1, R1, #4
+
+POP {R2 - R5}
+MOV PC, LR
+
+
+search_block
+; IN R0 address of block
+; IN R1 target
+; OUT R0 updated address
+; OUT R1 index
+PUSH {R2 - R5}
 MOV R2, #0
-; find PC in table
-restore_registers_loop_1
+search_block_loop_1
+CMP R2, #MAX_THREADS
+BEQ halt
 LDR R3, [R0], #4
 CMP R3, R1
 ADDNE R2, R2, #1
-BNE restore_registers_loop_1
-
-; clear table index
+BNE search_block_loop_1
 SUB R0, R0, #4
-MOV R5, #-1
-STR R5, [R0]
-
-
-; calc address of stored registers
-ADD R2, R2, #1
-ADRL R0, thread_queue_registers
-MOV R3, #MAX_THREADS * 4 * 16
-MUL R2, R2, R3
-ADD R0, R0, R2  ; R0 = base_address + ((index+1) * 16 words)
-; restore registers
-MOV SP, R0
-POP {R0 - R15}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+MOV R1, R2
+POP {R2 - R5}
+MOV PC, LR
 
 
 

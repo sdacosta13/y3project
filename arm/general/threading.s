@@ -4,6 +4,7 @@ create_thread
 ; Note, a new thread will not have any cleared registers
 PUSH {LR}
 PUSH {R1 - R12}
+SUB R0, R0, #4 ; account for pipelining
 ADRL R1, addr_thread_queue_start
 MOV R2, LR
 BL queue_push
