@@ -28,7 +28,7 @@ BNE screenblankloop
 
 
 ;setup timer
-MOV R0, #0
+MOV R0, #FF
 LDR R1, addr_timer_compare
 STR R0, [R1]
 LDR R1, addr_timer_enable
@@ -128,7 +128,3 @@ MOV R2, #0
 
 B usercode
 ; End of hard_reset
-addr_interrupts      DEFW 0xF2000000
-addr_interrupts_mask DEFW 0xF2000001
-addr_timer_compare   DEFW 0xF1001014
-addr_timer_enable    DEFW 0xF100100C ;bit 0 = 1 means timer enabled

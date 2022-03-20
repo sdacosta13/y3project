@@ -19,6 +19,10 @@ addr_timer          DEFW 0xF1001010
 addr_keyboard       DEFW 0xF1002004
 addr_keyboard_req   DEFW 0xF1002000
 addr_keyboard_dir   DEFW 0xF1002008
+addr_interrupts      DEFW 0xF2000000
+addr_interrupts_mask DEFW 0xF2000001
+addr_timer_compare   DEFW 0xF1001014
+addr_timer_enable    DEFW 0xF100100C ;bit 0 = 1 means timer enabled
 charwidth       EQU 24
 LCD_linediff    EQU 7680
 lcd_char_length EQU 40
@@ -29,7 +33,7 @@ MAX_THREADS EQU 4
 
 ; Define the space for address queues
 ; Queues are defined as a Word of data followed by X words
-
+thread
 thread_queue_items DEFW 0
 addr_thread_queue_start DEFS MAX_THREADS * 4
 ;addr_thread_queue_end
@@ -50,7 +54,7 @@ thread_queue_registers_end                       ; these register are not wiped 
 
 thread_IO_queue_register_map DEFS MAX_THREADS * 4
 thread_IO_queue_registers DEFS MAX_THREADS * 4 * 17 ; declares 17 words for each thread
-thread_IO_queue_registers_end
+;thread_IO_queue_registers_end
 
 ALIGN
 stack_user DEFS &2000

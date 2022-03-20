@@ -26,9 +26,9 @@ STR R2, [R1], #4
 STMIA R1!, {SP, LR}^
 ; make copies of SP and base address
 STR R1, tempR1
+POP{R0 - R12}
 STR SP, tempSP
 ; get user registers back
-POP{R0 - R12}
 ; setup base registers for user register saving
 LDR SP, tempR1
 ; perform save
@@ -53,15 +53,26 @@ MOV R3, #4 * 17
 MUL R1, R1, R3
 ADRL R3, thread_queue_registers
 ADD R3, R3, R1
+
+
+
+
+
+; clear timer interrupt register to ensure the restore procedure occurs atomically
+;LDR R0, addr_interrupts_mask
+;LDRB R1, [R0]
+;BIC R1, R1, #&01
+;STRB R1, [R0]
+
 ; R3 contains base register
 ; first restore CPSR
 ; second restore SP LR
 ; third restore user registers, PC return to code
 LDMIA R3!, {R4}
-MSR CPSR_c, R4
-LDMIA R3!, {SP, LR}^          ; This command causes an interrupt for some reason
-LDMIA R3, {R0 - R12, PC}^     ; Either changing the CPSR enable interrupts which immediately fire
-                              ; Or the timer fires as the context switch is taking too long
+MSR SPSR_c, R4
+LDMIA R3!, {SP, LR}^
+LDMIA R3, {R0 - R12, PC}^
+
 
 
 
@@ -72,6 +83,8 @@ get_free_position
 PUSH{R2 - R5}
 MOV R0, #0
 get_free_not_found
+CMP R0, #MAX_THREADS
+BEQ halt
 LDR R2, [R1], #4
 CMP R2, #-1
 ADDNE R0, R0, #1

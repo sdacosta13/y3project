@@ -83,11 +83,11 @@ BL end_thread
 B SVC_exit
 
 SVC_exit
-PUSH {R0}
-MRS R0, CPSR
-BIC R0, R0, #&C0
-MSR CPSR_c, R0
-POP {R0}
+;PUSH {R0}
+;MRS R0, CPSR
+;BIC R0, R0, #&C0
+;MSR CPSR_c, R0
+;POP {R0}
 POP {R14}
 POP {LR}
 MOVS PC, LR                        ; Return to usercode, change mode

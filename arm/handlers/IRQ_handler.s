@@ -11,6 +11,17 @@ BEQ timer_interrupt
 B halt
 
 timer_interrupt
+;Subtract 1 from the timer compare
+;This essentially resets the timer compare
+;Without this the interrupt seen at f200_0000 addressed by byte will never clear
+;this IRQ_assert is RO
+;timer details at page 12 in the lab manual
+LDR R1, addr_timer_compare
+LDR R2, [R1]
+SUB R2, R2, #1
+CMP R2, #0
+MOVLT R2, #&FF
+STR R2, [R1]
 ; Save state
 B save_registers
 ; Run Sheduler

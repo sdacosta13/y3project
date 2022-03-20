@@ -16,32 +16,29 @@ MOV R10, #10
 MOV R11, #11
 MOV R12, #12
 
-;ADRL R0, thread2
-;BL create_thread
+ADRL R0, thread2
+BL create_thread
 
 
 
-
+; 0xDE0C
 thread1
 ADD R2, R2, #1
 B thread1
 
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-MOV R0, R0
-
-;thread2
-;MOV R1, #0
-;thread2_l
-;ADD R1, R1, #-1
-;B thread2_l
 
 
+
+B halt
+B halt
+B halt
+B halt
+B halt
+
+;0xDE24
+thread2
+ADD R3, R3, #1
+B thread2
 
 
 
