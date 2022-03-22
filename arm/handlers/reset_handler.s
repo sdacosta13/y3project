@@ -14,6 +14,16 @@ MOV R10, #0
 MOV R11, #0
 MOV R12, #0
 
+; set stacks in use to none
+ADRL R0, stacks_in_use
+MOV R1, #-1
+set_stack_loop
+STR R1, [R0], #4
+ADD R2, R2, #1
+CMP R2, #MAX_THREADS
+BNE set_stack_loop
+
+
 ; setup IO
 STR R0, cursorposx
 STR R0, cursorposy
@@ -118,7 +128,15 @@ MRS  R0, CPSR
 BIC  R0, R0, #&1F
 ORR  R0, R0, #&10
 MSR  CPSR_c, R0               ;switch to user
-ADRL SP, stackend_user
+
+; set stack to first position, all stacks should be clear as reset has occured
+ADRL R0, stacks_in_use
+MOV R1, #1
+STR R1, [R0]
+ADRL R0, stack_threads
+MOV R1, #THREAD_STACK_SIZE_BYTES
+ADD R0, R0, R1
+MOV SP, R0
 
 
 

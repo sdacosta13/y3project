@@ -43,6 +43,9 @@ sheduler
 ; first step is to grab the oldest thread
 ADRL R1, addr_thread_queue_start
 BL queue_pop
+CMP R1, #-1
+BEQ halt ; Out of threads
+
 MOV R1, R0
 ADRL R0, thread_queue_register_map
 ; search for thread in register map
@@ -68,6 +71,7 @@ ADD R3, R3, R1
 ; first restore CPSR
 ; second restore SP LR
 ; third restore user registers, PC return to code
+thread_return ; used for debugging
 LDMIA R3!, {R4}
 MSR SPSR_c, R4
 LDMIA R3!, {SP, LR}^

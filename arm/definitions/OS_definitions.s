@@ -9,7 +9,7 @@ svc_7  EQU &107 ; query_keyboard
 svc_8  EQU &108 ; query_key
 svc_9  EQU &109 ; create_thread
 svc_10 EQU &10A ; end_thread
-SVC_MAX DEFW &10A
+SVC_MAX DEFW &10B
 ; stacks are defined here
 cursorposx          DEFW 0
 cursorposy          DEFW 0
@@ -30,7 +30,8 @@ lcd_char_height EQU 30
 
 ALIGN
 MAX_THREADS EQU 4
-
+THREAD_STACK_SIZE_BYTES EQU &2000
+THREAD_STACK_SIZE_WORDS EQU THREAD_STACK_SIZE_BYTES / 4
 ; Define the space for address queues
 ; Queues are defined as a Word of data followed by X words
 thread
@@ -59,7 +60,8 @@ thread_IO_queue_registers DEFS MAX_THREADS * 4 * 17 ; declares 17 words for each
 ALIGN
 stack_user DEFS &2000
 stackend_user
-stack_threads DEFS &2000 * MAX_THREADS
+stacks_in_use DEFS 4 * MAX_THREADS
+stack_threads DEFS THREAD_STACK_SIZE_BYTES * MAX_THREADS
 stackend_threads
 
 stack_svc DEFS &1000
