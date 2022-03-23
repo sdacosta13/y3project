@@ -1,3 +1,4 @@
+
 tempSP DEFW 0
 tempR1 DEFW 0
 
@@ -42,7 +43,7 @@ B sheduler
 sheduler
 ; first step is to grab the oldest thread
 ADRL R1, addr_thread_queue_start
-BL queue_pop
+BL queue_pop_with_io
 CMP R1, #-1
 BEQ halt ; Out of threads
 

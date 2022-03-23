@@ -1,7 +1,4 @@
 usercode
-
-
-
 MOV R0, #0
 MOV R1, #1
 MOV R2, #2

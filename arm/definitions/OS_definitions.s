@@ -27,20 +27,20 @@ charwidth       EQU 24
 LCD_linediff    EQU 7680
 lcd_char_length EQU 40
 lcd_char_height EQU 30
-
+WORD_SIZE_BYTES EQU 4
 ALIGN
 MAX_THREADS EQU 4
 THREAD_STACK_SIZE_BYTES EQU &2000
-THREAD_STACK_SIZE_WORDS EQU THREAD_STACK_SIZE_BYTES / 4
+THREAD_STACK_SIZE_WORDS EQU THREAD_STACK_SIZE_BYTES / WORD_SIZE_BYTES
 ; Define the space for address queues
 ; Queues are defined as a Word of data followed by X words
 thread
 thread_queue_items DEFW 0
-addr_thread_queue_start DEFS MAX_THREADS * 4
+addr_thread_queue_start DEFS MAX_THREADS * WORD_SIZE_BYTES
 ;addr_thread_queue_end
 
 thread_queue_IO_items DEFW 0
-addr_thread_IO_queue_start DEFS MAX_THREADS * 4
+addr_thread_IO_queue_start DEFS MAX_THREADS * WORD_SIZE_BYTES
 ;addr_thread_IO_queue_end
 
 
@@ -48,24 +48,20 @@ addr_thread_IO_queue_start DEFS MAX_THREADS * 4
 ; Note, when naming these address I discovered the max length of a label is 32 characters
 
 
-thread_queue_register_map DEFS MAX_THREADS * 4
-thread_queue_registers DEFS MAX_THREADS * 4 * 17 ; declares 17 words for each thread
+thread_queue_register_map DEFS MAX_THREADS * WORD_SIZE_BYTES
+thread_queue_registers DEFS MAX_THREADS * WORD_SIZE_BYTES * 17 ; declares 17 words for each thread
 thread_queue_registers_end                       ; these register are not wiped in reset_handler.s
 
-
-thread_IO_queue_register_map DEFS MAX_THREADS * 4
-thread_IO_queue_registers DEFS MAX_THREADS * 4 * 17 ; declares 17 words for each thread
-;thread_IO_queue_registers_end
 
 ALIGN
 stack_user DEFS &2000
 stackend_user
-stacks_in_use DEFS 4 * MAX_THREADS
+stacks_in_use DEFS WORD_SIZE_BYTES * MAX_THREADS
 stack_threads DEFS THREAD_STACK_SIZE_BYTES * MAX_THREADS
 stackend_threads
 
 stack_svc DEFS &1000
-stackend_svc
+stackend_SVC
 
 stack_IRQ DEFS &1000
 stackend_IRQ

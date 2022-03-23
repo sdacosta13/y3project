@@ -77,13 +77,13 @@ queue_utilisation
 ; OUT R0 - Counter Stat
 ; IN  R1 - Pointer to Queue
 PUSH {LR}
-PUSH {R2 - R12}
+PUSH {R1 - R12}
 
 SUB R1, R1, #4
 LDR R0, [R1]
 ADD R1, R1, #4
 
-POP {R2 - R12}
+POP {R1 - R12}
 POP {LR}
 MOV PC, LR
 
@@ -91,7 +91,7 @@ clear_queue
 ; IN R1 - Pointer to Queue
 PUSH {LR}
 PUSH {R0}
-PUSH {R2 - R12}
+PUSH {R1 - R12}
 
 ; wipe body
 MOV R0, #-1
@@ -108,15 +108,65 @@ SUB R1, R1, #4
 STR R0, [R1]
 ADD R1, R1, #4
 
-POP  {R2 - R12}
+POP  {R1 - R12}
 POP  {R0}
 POP  {LR}
 MOV  PC, LR
 
+queue_find
+; IN/OUT R0 - target / Position of item or -1 if not found
+; IN  R1 - Pointer to Queue
+PUSH {LR}
+PUSH {R1 - R12}
+
+MOV R2, #0
+MOV R4, #0
+
+queue_find_loop
+LDR R3, [R1, R2]
+CMP R3, R0
+MOVEQ R0, R4
+BEQ queue_find_exit
+
+ADD R2, R2, #WORD_SIZE_BYTES
+ADD R4, R4, #1
+CMP R2, #MAX_THREADS * WORD_SIZE_BYTES
+BNE queue_find_loop
+
+queue_not_found
+MOV R0, #-1
+queue_find_exit
+POP {R1 - R12}
+POP {LR}
+MOV PC, LR
+
+
+queue_index
+; IN  R0 - index to check
+; IN  R1 - Pointer to queue
+; OUT R2 - item to return or -1 if invalid
+PUSH {LR}
+PUSH {R0 - R1}
+PUSH {R3 - R12}
+
+; check index is not out of bounds
+SUB  R4, R1, #WORD_SIZE_BYTES ; get address of counter
+LDR  R4, [R4]   ; get data
+CMP R4, R0
+MOVLT R0, #-1
+BLT queue_find_exit ; fail if out of range
+MOV R3, #WORD_SIZE_BYTES
+MUL R3, R0, R3
+ADD R1, R1, R3
+LDR R2, [R1]
 
 
 
-
+queue_index_exit
+POP  {R3 - R12}
+POP  {R0 - R1}
+POP  {LR}
+MOV PC, LR
 
 
 

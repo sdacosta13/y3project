@@ -1,3 +1,4 @@
+INCLUDE queue_IO.s
 INCLUDE context_switch.s
 create_thread
 ; IN R0 - Address of thread
