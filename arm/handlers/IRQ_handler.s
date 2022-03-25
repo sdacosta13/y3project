@@ -69,7 +69,13 @@ B IRQ_quit
 pushed
 ORR R7, R7, R5
 STRB R7, [R4]
-B IRQ_quit
+
+keyboard_thread_handling
+;return to keyboard context here
+
+MOV R2, #1
+STR R2, entering_from_IO
+B save_registers
 
 
 

@@ -24,7 +24,9 @@ ADD R1, R1, R0
 MRS R2, SPSR
 STR R2, [R1], #4
 ; save user SP, LR
+ADD SP, SP, #13 * WORD_SIZE_BYTES
 STMIA R1!, {SP, LR}^
+SUB SP, SP, #13 * WORD_SIZE_BYTES
 ; make copies of SP and base address
 STR R1, tempR1
 POP{R0 - R12}
@@ -40,10 +42,20 @@ STR LR, [SP]
 LDR SP, tempSP
 B sheduler
 
+
+entering_from_IO DEFW -1 ; Dirty method to determine where I enter my sheduler from
+                         ; Its not a particularly clean method but it lets me reuse lots of code
+
 sheduler
 ; first step is to grab the oldest thread
 ADRL R1, addr_thread_queue_start
-BL queue_pop_with_io
+LDR R2, entering_from_IO
+CMP R2, #-1
+BLEQ queue_pop_without_io
+BLNE queue_pop_with_io
+MOV R2, #-1
+STR R2, entering_from_IO
+
 CMP R1, #-1
 BEQ halt ; Out of threads
 

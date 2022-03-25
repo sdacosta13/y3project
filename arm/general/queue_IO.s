@@ -1,4 +1,4 @@
-queue_pop_with_io
+queue_pop_without_io
 ; OUT R0 - Item popped
 ; This function implements a less general form or queue
 ; This function should loop over the items in the queue and pop the first item which is not waiting for IO
@@ -21,8 +21,8 @@ ADRL R1, addr_thread_queue_start
 MOV R11, R1
 ADRL R12, addr_thread_IO_queue_start
 BL queue_utilisation ; R0 now contains length of queue
-MOV R3, R0
-MOV R0, #0           ; R0 counts up to R3
+MOV R5, R0
+MOV R0, #0           ; R0 counts up to R5
 
 queue_pop_with_io_loop
 MOV R1, R11
@@ -33,6 +33,7 @@ BL convert_pc_to_index
 ; R2 contains PC
 ; R3 contains index of PC's threads
 MOV R1, R12
+MOV R0, R3
 BL queue_find
 CMP R0, #-1
 BEQ move_to_pop
@@ -41,7 +42,7 @@ BEQ move_to_pop
 
 
 ADD R0, R0, #1
-CMP R0, R3
+CMP R0, R5
 BEQ jobless
 B queue_pop_with_io_loop
 
@@ -119,3 +120,84 @@ MOV R3, R4
 POP {R4 - R12}
 POP {LR}
 MOV PC, LR
+
+queue_pop_with_io
+; essentially does the opposite of queue_pop_without_io
+; OUT R0 - Item popped
+PUSH {LR}
+PUSH {R1 - R12}
+ADRL R1, addr_thread_IO_queue_start
+BL queue_pop
+CMP R0, #-1
+BEQ halt ; should never fire
+
+ADRL R2, thread_queue_register_map
+MOV R3, #WORD_SIZE_BYTES
+MUL R3, R0, R3
+ADD R2, R2, R3
+LDR R0, [R2] ; R0 now contains value I need to remove from my queue
+BL remove_from_queue
+
+
+POP  {R1 - R12}
+POP  {LR}
+MOV PC, LR
+
+remove_from_queue
+PUSH {LR}
+PUSH {R1 - R12}
+ADRL R1, addr_thread_queue_start
+PUSH {R0}
+BL queue_find
+CMP R0, #-1
+BEQ halt
+MOV R2, #4
+MUL R3, R0, R2
+ADD R3, R3, R1
+ADD R4, R3, #WORD_SIZE_BYTES
+MOV R5, #MAX_THREADS
+SUB R5, R5, R0
+SUB R5, R5, #1
+
+clear_loop
+CMP R5, #0
+BEQ threads_cleared
+LDR R6, [R4], #4
+STR R6, [R3], #4
+SUB R5, R5, #1
+B clear_loop
+
+threads_cleared
+MOV R6, #-1
+STR R6, [R3]
+SUB R1, R1, #WORD_SIZE_BYTES
+LDR R6, [R1]
+SUB R6, R6, #1
+STR R6, [R1]
+
+POP {R0}
+
+
+POP {R1 - R12}
+POP {LR}
+MOV PC, LR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;

@@ -13,7 +13,8 @@ MOV R9, #0
 MOV R10, #0
 MOV R11, #0
 MOV R12, #0
-
+MOV R0, #-1
+STR R0, entering_from_IO
 ; set stacks in use to none
 ADRL R0, stacks_in_use
 MOV R1, #-1

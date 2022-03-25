@@ -1,10 +1,10 @@
 svc_handler
 ; TODO: handle SVC calls
 PUSH {LR}
-PUSH {R14}
 PUSH {R0}
 MRS  R0, CPSR                       ;Enables interrupts while in SVC
 BIC  R0, R0, #&C0                   ;Not sure if this is ok currently
+ORR  R0, R0, #&C0
 MSR  CPSR_c, R0
 POP {R0}
 
@@ -36,6 +36,8 @@ DEFW SVC_7  ; query_keyboard
 DEFW SVC_8  ; query_key
 DEFW SVC_9  ; create_thread
 DEFW SVC_10 ; end_thread
+DEFW SVC_11 ; halt_thread_for_IO - runs query_keyboard
+
 
 SVC_0
 B halt
@@ -82,13 +84,31 @@ SVC_10
 BL end_thread
 B SVC_exit
 
+SVC_11
+B halt_thread_for_IO
+
+LR_address DEFW 0
+halt_thread_for_IO
+
+; to halt for IO I need to push my register index to my IO queue and then switch context
+POP {LR}
+PUSH {R0 - R12} ; mimic stack setup from IRQ_handler
+ADRL R1, thread_queue_register_map
+PUSH {LR}
+BL get_free_position                ; get the next position but dont reserve it
+ADRL R1, addr_thread_IO_queue_start
+BL queue_push
+POP {LR}
+ADD LR, LR, #4
+B save_registers
+
+
 SVC_exit
-;PUSH {R0}
-;MRS R0, CPSR
-;BIC R0, R0, #&C0
-;MSR CPSR_c, R0
-;POP {R0}
-POP {R14}
+PUSH {R0}
+MRS R0, CPSR
+BIC R0, R0, #&C0
+MSR CPSR_c, R0
+POP {R0}
 POP {LR}
 MOVS PC, LR                        ; Return to usercode, change mode
 

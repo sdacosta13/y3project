@@ -9,6 +9,7 @@ svc_7  EQU &107 ; query_keyboard
 svc_8  EQU &108 ; query_key
 svc_9  EQU &109 ; create_thread
 svc_10 EQU &10A ; end_thread
+svc_11 EQU &10B ; halt_thread_for_IO
 SVC_MAX DEFW &10B
 ; stacks are defined here
 cursorposx          DEFW 0
@@ -54,8 +55,6 @@ thread_queue_registers_end                       ; these register are not wiped 
 
 
 ALIGN
-stack_user DEFS &2000
-stackend_user
 stacks_in_use DEFS WORD_SIZE_BYTES * MAX_THREADS
 stack_threads DEFS THREAD_STACK_SIZE_BYTES * MAX_THREADS
 stackend_threads

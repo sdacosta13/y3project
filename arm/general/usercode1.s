@@ -17,18 +17,26 @@ ADRL R0, thread2
 BL create_thread
 
 
-ADRL R1, colours
-thread3
-SVC svc_11
-SVC svc_7
-MOV R0, R3
-SVC svc_1
-B thread3
+
+; ~ 0xDE0C
+
+;BLEQ end_thread
+thread1
+ADD R2, R2, #1
+CMP R2, #&100
+PUSH {R2}
+BEQ halt
+;BEQ exit_thread
+B thread1
 
 
 
 
-
+B halt
+B halt
+B halt
+B halt
+B halt
 
 ; ~ 0xDE24
 thread2
@@ -36,6 +44,9 @@ ADD R3, R3, #1
 B thread2
 
 
+exit_thread
+MOV R12, SP
+SVC svc_10
 
 
 
