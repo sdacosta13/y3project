@@ -1,0 +1,51 @@
+\documentclass[11pt]{article}
+
+%\usepackage{sectsty}
+%\usepackage{graphicx}
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\title{ My Little Operating System }
+\author{ Sam da Costa }
+\date{\today}
+
+\begin{document}
+\maketitle	
+\pagebreak
+
+
+\tableofcontents
+\pagebreak
+
+%--Paper--
+
+\section{Introduction}
+\input{intro.tex}
+\pagebreak
+\section{Motivation and Background}
+\input{motivation.tex}
+\pagebreak
+\section{The virtual Keyboard}
+\input{virtualKeyboard.tex}
+\pagebreak
+\section{The Basic OS}
+\input{basicOS.tex}
+\pagebreak
+\section{Implementing Thread Switching}
+\input{threadSwitching.tex}
+\pagebreak
+\section{Conclusions}
+\input{conclusions.tex}
+\pagebreak
+\section{References}
+\input{references.tex}
+\pagebreak
+%--/Paper--
+
+\end{document}

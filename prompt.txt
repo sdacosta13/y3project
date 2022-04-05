@@ -1,0 +1,5 @@
+The School possesses some some small, ARM-based computers for teaching purposes.  These are 'bare metal' machines where you get to experience a system before it has any system software.  However, what is the feasibility of adding operating system functionality to these systems?
+
+The intention of this project is to allow 'free rein' to experiment with implementing concepts experienced more theoretically in previous modules.  Key amongst these is probably scheduling, so that the multiple processes can run and interact. Some I/O handling, including interrupts is also likely.  File system management is a little trickier due to limited hardware but is certainly possible as an additional challenge.
+
+Another possibility would be to use a different board such as a Raspberry Pi.  Such a system may be more capable but also may be more challenging due to the dearth of documentation (and a debug environment).  Historically, similar projects have been done with students' own hardware too.
