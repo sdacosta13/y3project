@@ -1,7 +1,7 @@
 \documentclass[11pt]{article}
 
 %\usepackage{sectsty}
-%\usepackage{graphicx}
+\usepackage{graphicx}
 
 % Margins
 \topmargin=-0.45in
@@ -10,6 +10,17 @@
 \textwidth=6.5in
 \textheight=9.0in
 \headsep=0.25in
+
+
+\usepackage{titlesec}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
 
 \title{ My Little Operating System }
 \author{ Sam da Costa }
@@ -31,7 +42,7 @@
 \section{Motivation and Background}
 \input{motivation.tex}
 \pagebreak
-\section{The virtual Keyboard}
+\section{The Virtual Keyboard}
 \input{virtualKeyboard.tex}
 \pagebreak
 \section{The Basic OS}
