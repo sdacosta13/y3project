@@ -8,12 +8,16 @@
 \contentsline {subsection}{\numberline {3.3}Implementation}{6}%
 \contentsline {section}{\numberline {4}The Basic OS}{7}%
 \contentsline {subsection}{\numberline {4.1}Layout and structuring}{7}%
-\contentsline {subsection}{\numberline {4.2}Virtual IO}{7}%
-\contentsline {subsection}{\numberline {4.3}The SVC handler}{7}%
-\contentsline {subsection}{\numberline {4.4}The IRQ handler}{7}%
-\contentsline {section}{\numberline {5}Implementing Thread Switching}{8}%
-\contentsline {subsection}{\numberline {5.1}The challenges of thread switching}{8}%
-\contentsline {subsection}{\numberline {5.2}Implementation}{8}%
-\contentsline {subsection}{\numberline {5.3}Integration with virtual IO}{8}%
-\contentsline {section}{\numberline {6}Conclusions}{9}%
-\contentsline {section}{\numberline {7}References}{10}%
+\contentsline {subsection}{\numberline {4.2}Self Imposed Conventions}{7}%
+\contentsline {subsection}{\numberline {4.3}Virtual IO}{8}%
+\contentsline {subsection}{\numberline {4.4}The SVC Handler}{8}%
+\contentsline {subsection}{\numberline {4.5}The IRQ Handler}{9}%
+\contentsline {section}{\numberline {5}Implementing Thread Switching}{10}%
+\contentsline {subsection}{\numberline {5.1}The challenges of thread switching}{10}%
+\contentsline {subsubsection}{\numberline {5.1.1}When is the time-slicing procedure called?}{10}%
+\contentsline {subsubsection}{\numberline {5.1.2}When can I safely interrupt?}{11}%
+\contentsline {subsubsection}{\numberline {5.1.3}How do I ensure the user stacks consistency?}{11}%
+\contentsline {subsubsection}{\numberline {5.1.4}How do you store and load a threads context?}{12}%
+\contentsline {subsection}{\numberline {5.2}Integration with virtual IO}{13}%
+\contentsline {section}{\numberline {6}Conclusions}{14}%
+\contentsline {section}{\numberline {7}References}{15}%

@@ -1,6 +1,7 @@
 \relax 
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {2}Motivation and Background}{4}\protected@file@percent }
+\newlabel{motivations}{{2}{4}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}The Virtual Keyboard}{5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}The development environment}{5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Design}{5}\protected@file@percent }
@@ -11,12 +12,24 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Implementation}{6}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}The Basic OS}{7}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Layout and structuring}{7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Virtual IO}{7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}The SVC handler}{7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}The IRQ handler}{7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Implementing Thread Switching}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}The challenges of thread switching}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Implementation}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Integration with virtual IO}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {7}References}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Self Imposed Conventions}{7}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}How all of the procedure calls started}{8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Virtual IO}{8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}The SVC Handler}{8}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}The IRQ Handler}{9}\protected@file@percent }
+\citation{arm_man}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Implementing Thread Switching}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}The challenges of thread switching}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}When is the time-slicing procedure called?}{10}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}When can I safely interrupt?}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}How do I ensure the user stacks consistency?}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.4}How do you store and load a threads context?}{12}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The memory layout of the PCB}}{12}\protected@file@percent }
+\newlabel{fig:PCB}{{2}{12}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}Return Procedure.}{12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Integration with virtual IO}{13}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{14}\protected@file@percent }
+\bibdata{refs}
+\bibcite{arm_man}{1}
+\bibstyle{plain}
+\@writefile{toc}{\contentsline {section}{\numberline {7}References}{15}\protected@file@percent }

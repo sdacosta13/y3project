@@ -1,8 +1,11 @@
 \documentclass[11pt]{article}
 
+\usepackage{cite}
+
 %\usepackage{sectsty}
 \usepackage{graphicx}
-
+\usepackage{wrapfig}
+\usepackage{listings}
 % Margins
 \topmargin=-0.45in
 \evensidemargin=0in
@@ -10,6 +13,8 @@
 \textwidth=6.5in
 \textheight=9.0in
 \headsep=0.25in
+
+
 
 
 \usepackage{titlesec}
@@ -21,7 +26,11 @@
 \titlespacing*{\paragraph}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
-
+\lstdefinestyle{myListingStyle} 
+{
+	basicstyle = \small\ttfamily,
+    breaklines = true,
+}
 \title{ My Little Operating System }
 \author{ Sam da Costa }
 \date{\today}
