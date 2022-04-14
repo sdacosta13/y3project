@@ -7,29 +7,35 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Design}{5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Virtual Keyboard Hardware Interfaces}{5}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Keyboard Design}{6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The final design of the virtual keyboard}}{6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The final design of the virtual keyboard.}}{6}\protected@file@percent }
 \newlabel{fig:keyboard}{{1}{6}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Implementation}{6}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {4}The Basic OS}{7}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Layout and structuring}{7}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Self Imposed Conventions}{7}\protected@file@percent }
 \@writefile{lol}{\contentsline {lstlisting}{\numberline {1}How all of the procedure calls started}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Virtual IO}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}The SVC Handler}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}The IRQ Handler}{9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Virtual LCD}{8}\protected@file@percent }
+\newlabel{lst:printchar_pseudo}{{2}{9}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}printchar psuedocode}{9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Keeping the cursor position consistent}{9}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Supported control characters.}}{9}\protected@file@percent }
+\newlabel{controlcharacters}{{1}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Outputting a character}{9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}The SVC Handler}{9}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}The IRQ Handler}{10}\protected@file@percent }
 \citation{arm_man}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Implementing Thread Switching}{10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}The challenges of thread switching}{10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}When is the time-slicing procedure called?}{10}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}When can I safely interrupt?}{11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}How do I ensure the user stacks consistency?}{11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.4}How do you store and load a threads context?}{12}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The memory layout of the PCB}}{12}\protected@file@percent }
-\newlabel{fig:PCB}{{2}{12}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}Return Procedure.}{12}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Integration with virtual IO}{13}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{14}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Implementing Thread Switching}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}The challenges of thread switching}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}When is the time-slicing procedure called?}{11}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}When can I safely interrupt?}{12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}How do I ensure the user stacks consistency?}{12}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.4}How do you store and load a threads' context?}{13}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The memory layout of the PCB.}}{13}\protected@file@percent }
+\newlabel{fig:PCB}{{2}{13}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}Return Procedure.}{13}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Integration with virtual IO}{14}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{15}\protected@file@percent }
 \bibdata{refs}
 \bibcite{arm_man}{1}
 \bibstyle{plain}
-\@writefile{toc}{\contentsline {section}{\numberline {7}References}{15}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}References}{16}\protected@file@percent }
