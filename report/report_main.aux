@@ -1,41 +1,75 @@
 \relax 
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {2}Motivation and Background}{4}\protected@file@percent }
-\newlabel{motivations}{{2}{4}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}The Virtual Keyboard}{5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}The development environment}{5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Design}{5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Virtual Keyboard Hardware Interfaces}{5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Keyboard Design}{6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces The final design of the virtual keyboard.}}{6}\protected@file@percent }
-\newlabel{fig:keyboard}{{1}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Implementation}{6}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4}The Basic OS}{7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Layout and structuring}{7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Self Imposed Conventions}{7}\protected@file@percent }
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}How all of the procedure calls started}{8}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Virtual LCD}{8}\protected@file@percent }
-\newlabel{lst:printchar_pseudo}{{2}{9}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}printchar psuedocode}{9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Keeping the cursor position consistent}{9}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Supported control characters.}}{9}\protected@file@percent }
-\newlabel{controlcharacters}{{1}{9}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Outputting a character}{9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}The SVC Handler}{9}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}The IRQ Handler}{10}\protected@file@percent }
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
+\HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global\let\oldnewlabel\newlabel
+\gdef\newlabel#1#2{\newlabelxx{#1}#2}
+\gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
+\let\newlabel\oldnewlabel
+\fi}
+\fi}
+\global\let\hyper@last\relax 
+\gdef\HyperFirstAtBeginDocument#1{#1}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{windows}
+\citation{apple}
+\citation{linux}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Project Goals}{3}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.1}Objective 1}{3}{subsubsection.1.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.2}Objective 2}{3}{subsubsection.1.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.3}Objective 3}{3}{subsubsection.1.1.3}\protected@file@percent }
+\citation{kmd}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Motivation and Background}{4}{section.2}\protected@file@percent }
+\newlabel{motivations}{{2}{4}{Motivation and Background}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Motivations}{4}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Background}{4}{subsection.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Frame buffer memory set-up}}{5}{figure.1}\protected@file@percent }
+\newlabel{fig:LCDMem}{{1}{5}{Frame buffer memory set-up}{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}The Virtual Keyboard}{6}{section.3}\protected@file@percent }
+\newlabel{chap:virtualKeyboard}{{3}{6}{The Virtual Keyboard}{section.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}The development environment}{6}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Design}{6}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Virtual Keyboard Hardware Interfaces}{6}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Keyboard Design}{7}{subsubsection.3.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The final design of the virtual keyboard.}}{7}{figure.2}\protected@file@percent }
+\newlabel{fig:keyboard}{{2}{7}{The final design of the virtual keyboard}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Implementation}{7}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4}The Basic OS}{8}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Layout and structuring}{8}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Self Imposed Conventions}{8}{subsection.4.2}\protected@file@percent }
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}How all of the procedure calls started}{9}{lstlisting.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Virtual LCD}{9}{subsection.4.3}\protected@file@percent }
+\newlabel{lst:printchar_pseudo}{{2}{10}{printchar psuedocode}{lstlisting.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}printchar psuedocode}{10}{lstlisting.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1}Keeping the cursor position consistent}{10}{subsubsection.4.3.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Supported control characters.}}{10}{table.1}\protected@file@percent }
+\newlabel{controlcharacters}{{1}{10}{Supported control characters}{table.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.2}Outputting a character}{10}{subsubsection.4.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}The SVC Handler}{10}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}The IRQ Handler}{11}{subsection.4.5}\protected@file@percent }
 \citation{arm_man}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Implementing Thread Switching}{11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}The challenges of thread switching}{11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}When is the time-slicing procedure called?}{11}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}When can I safely interrupt?}{12}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}How do I ensure the user stacks consistency?}{12}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.4}How do you store and load a threads' context?}{13}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The memory layout of the PCB.}}{13}\protected@file@percent }
-\newlabel{fig:PCB}{{2}{13}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}Return Procedure.}{13}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Integration with virtual IO}{14}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{15}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Implementing Thread Switching}{12}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}The challenges of thread switching}{12}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}When is the time-slicing procedure called?}{12}{subsubsection.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}When can I safely interrupt?}{13}{subsubsection.5.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}How do I ensure the user stacks consistency?}{13}{subsubsection.5.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.4}How do you store and load a threads' context?}{14}{subsubsection.5.1.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The memory layout of the PCB.}}{14}{figure.3}\protected@file@percent }
+\newlabel{fig:PCB}{{3}{14}{The memory layout of the PCB}{figure.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}Return Procedure.}{14}{lstlisting.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Integration with virtual IO}{15}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{16}{section.6}\protected@file@percent }
 \bibdata{refs}
-\bibcite{arm_man}{1}
+\bibcite{kmd}{1}
+\bibcite{apple}{2}
+\bibcite{windows}{3}
+\bibcite{arm_man}{4}
+\bibcite{linux}{5}
 \bibstyle{plain}
-\@writefile{toc}{\contentsline {section}{\numberline {7}References}{16}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {7}References}{17}{section.7}\protected@file@percent }

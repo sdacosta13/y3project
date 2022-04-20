@@ -3,47 +3,50 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: report_main.aux
 The style file: plain.bst
 Database file #1: refs.bib
+Warning--to sort, need author or key in windows
+Warning--to sort, need author or key in apple
+Warning--to sort, need author or key in kmd
 Warning--to sort, need author, editor, or key in arm_man
 Warning--empty author and editor in arm_man
-You've used 1 entry,
+You've used 5 entries,
             2118 wiz_defined-function locations,
-            501 strings with 4053 characters,
-and the built_in function-call counts, 196 in all, are:
-= -- 15
-> -- 1
+            514 strings with 4374 characters,
+and the built_in function-call counts, 902 in all, are:
+= -- 84
+> -- 11
 < -- 0
-+ -- 1
-- -- 0
-* -- 13
-:= -- 31
-add.period$ -- 2
-call.type$ -- 1
-change.case$ -- 2
++ -- 7
+- -- 2
+* -- 33
+:= -- 121
+add.period$ -- 14
+call.type$ -- 5
+change.case$ -- 15
 chr.to.int$ -- 0
-cite$ -- 3
-duplicate$ -- 13
-empty$ -- 25
-format.name$ -- 0
-if$ -- 42
+cite$ -- 10
+duplicate$ -- 41
+empty$ -- 116
+format.name$ -- 2
+if$ -- 212
 int.to.chr$ -- 0
-int.to.str$ -- 1
+int.to.str$ -- 5
 missing$ -- 1
-newline$ -- 7
-num.names$ -- 0
-pop$ -- 7
+newline$ -- 27
+num.names$ -- 2
+pop$ -- 48
 preamble$ -- 1
-purify$ -- 2
+purify$ -- 11
 quote$ -- 0
-skip$ -- 6
+skip$ -- 27
 stack$ -- 0
-substring$ -- 5
-swap$ -- 1
+substring$ -- 25
+swap$ -- 5
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 2
-warning$ -- 2
-while$ -- 0
-width$ -- 2
-write$ -- 10
-(There were 2 warnings)
+type$ -- 18
+warning$ -- 5
+while$ -- 2
+width$ -- 6
+write$ -- 46
+(There were 5 warnings)

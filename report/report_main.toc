@@ -1,25 +1,31 @@
-\contentsline {section}{\numberline {1}Introduction}{3}%
-\contentsline {section}{\numberline {2}Motivation and Background}{4}%
-\contentsline {section}{\numberline {3}The Virtual Keyboard}{5}%
-\contentsline {subsection}{\numberline {3.1}The development environment}{5}%
-\contentsline {subsection}{\numberline {3.2}Design}{5}%
-\contentsline {subsubsection}{\numberline {3.2.1}Virtual Keyboard Hardware Interfaces}{5}%
-\contentsline {subsubsection}{\numberline {3.2.2}Keyboard Design}{6}%
-\contentsline {subsection}{\numberline {3.3}Implementation}{6}%
-\contentsline {section}{\numberline {4}The Basic OS}{7}%
-\contentsline {subsection}{\numberline {4.1}Layout and structuring}{7}%
-\contentsline {subsection}{\numberline {4.2}Self Imposed Conventions}{7}%
-\contentsline {subsection}{\numberline {4.3}Virtual LCD}{8}%
-\contentsline {subsubsection}{\numberline {4.3.1}Keeping the cursor position consistent}{9}%
-\contentsline {subsubsection}{\numberline {4.3.2}Outputting a character}{9}%
-\contentsline {subsection}{\numberline {4.4}The SVC Handler}{9}%
-\contentsline {subsection}{\numberline {4.5}The IRQ Handler}{10}%
-\contentsline {section}{\numberline {5}Implementing Thread Switching}{11}%
-\contentsline {subsection}{\numberline {5.1}The challenges of thread switching}{11}%
-\contentsline {subsubsection}{\numberline {5.1.1}When is the time-slicing procedure called?}{11}%
-\contentsline {subsubsection}{\numberline {5.1.2}When can I safely interrupt?}{12}%
-\contentsline {subsubsection}{\numberline {5.1.3}How do I ensure the user stacks consistency?}{12}%
-\contentsline {subsubsection}{\numberline {5.1.4}How do you store and load a threads' context?}{13}%
-\contentsline {subsection}{\numberline {5.2}Integration with virtual IO}{14}%
-\contentsline {section}{\numberline {6}Conclusions}{15}%
-\contentsline {section}{\numberline {7}References}{16}%
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Project Goals}{3}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}Objective 1}{3}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}Objective 2}{3}{subsubsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.3}Objective 3}{3}{subsubsection.1.1.3}%
+\contentsline {section}{\numberline {2}Motivation and Background}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Motivations}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Background}{4}{subsection.2.2}%
+\contentsline {section}{\numberline {3}The Virtual Keyboard}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}The development environment}{6}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Design}{6}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Virtual Keyboard Hardware Interfaces}{6}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Keyboard Design}{7}{subsubsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.3}Implementation}{7}{subsection.3.3}%
+\contentsline {section}{\numberline {4}The Basic OS}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Layout and structuring}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Self Imposed Conventions}{8}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Virtual LCD}{9}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Keeping the cursor position consistent}{10}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Outputting a character}{10}{subsubsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.4}The SVC Handler}{10}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}The IRQ Handler}{11}{subsection.4.5}%
+\contentsline {section}{\numberline {5}Implementing Thread Switching}{12}{section.5}%
+\contentsline {subsection}{\numberline {5.1}The challenges of thread switching}{12}{subsection.5.1}%
+\contentsline {subsubsection}{\numberline {5.1.1}When is the time-slicing procedure called?}{12}{subsubsection.5.1.1}%
+\contentsline {subsubsection}{\numberline {5.1.2}When can I safely interrupt?}{13}{subsubsection.5.1.2}%
+\contentsline {subsubsection}{\numberline {5.1.3}How do I ensure the user stacks consistency?}{13}{subsubsection.5.1.3}%
+\contentsline {subsubsection}{\numberline {5.1.4}How do you store and load a threads' context?}{14}{subsubsection.5.1.4}%
+\contentsline {subsection}{\numberline {5.2}Integration with virtual IO}{15}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Conclusions}{16}{section.6}%
+\contentsline {section}{\numberline {7}References}{17}{section.7}%
