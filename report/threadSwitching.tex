@@ -1,4 +1,5 @@
 \subsection{The challenges of thread switching}
+\label{chap:Threading}
 That challenges of thread switching in ARM stem from the difficulty in storing a threads' context in a way which is recoverable from any point without losing any state. A good place to tackle this problem is to start from looking at how a procedure call works in ARM. Procedure calls in arm are somewhat similar in concept, but they differ in scope. The procedure calls \cite{arm_man} I used in ARM consisted of the following steps
 \begin{itemize}
 	\item Move the LR onto the stack 

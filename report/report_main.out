@@ -7,15 +7,15 @@
 \BOOKMARK [2][-]{subsection.2.1}{Motivations}{section.2}% 7
 \BOOKMARK [2][-]{subsection.2.2}{Background}{section.2}% 8
 \BOOKMARK [1][-]{section.3}{The Virtual Keyboard}{}% 9
-\BOOKMARK [2][-]{subsection.3.1}{The development environment}{section.3}% 10
-\BOOKMARK [2][-]{subsection.3.2}{Design}{section.3}% 11
-\BOOKMARK [3][-]{subsubsection.3.2.1}{Virtual Keyboard Hardware Interfaces}{subsection.3.2}% 12
-\BOOKMARK [3][-]{subsubsection.3.2.2}{Keyboard Design}{subsection.3.2}% 13
-\BOOKMARK [2][-]{subsection.3.3}{Implementation}{section.3}% 14
+\BOOKMARK [2][-]{subsection.3.1}{UI design}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.2}{Implementation}{section.3}% 11
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Python Script}{subsection.3.2}% 12
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Jimulator Plug-in Integration}{subsection.3.2}% 13
+\BOOKMARK [2][-]{subsection.3.3}{Evaluation and Improvements}{section.3}% 14
 \BOOKMARK [1][-]{section.4}{The Basic OS}{}% 15
 \BOOKMARK [2][-]{subsection.4.1}{Layout and structuring}{section.4}% 16
 \BOOKMARK [2][-]{subsection.4.2}{Self Imposed Conventions}{section.4}% 17
-\BOOKMARK [2][-]{subsection.4.3}{Virtual LCD}{section.4}% 18
+\BOOKMARK [2][-]{subsection.4.3}{Virtual Screen}{section.4}% 18
 \BOOKMARK [3][-]{subsubsection.4.3.1}{Keeping the cursor position consistent}{subsection.4.3}% 19
 \BOOKMARK [3][-]{subsubsection.4.3.2}{Outputting a character}{subsection.4.3}% 20
 \BOOKMARK [2][-]{subsection.4.4}{The SVC Handler}{section.4}% 21
