@@ -1,5 +1,5 @@
 \subsection{Layout and structuring}
-As mentioned in Chapter \ref{motivations}, one of the main problems I had in COMP22712 was keeping my code organised as I was learning the intricacies of ARM while trying to write code. Now armed with a little more experience, I wanted to ensure that my code was kept organised from the start. I decided the best way to start would be to organise my main file \verb|os.s|. This file in my work for COMP22712 had been quite disorganised. It had a lot of the handlers required in the same file, which I felt was not great practice as it does not allow for a separation of concerns. I organised this file by making use of the INCLUDE mnemonic. This mnemonic is similar in concept to an import command in Java or Python except it differs in its exact implementation. The INCLUDE directive provided by my assembler has the effect of moving the code from the specified file to the location of the INCLUDE command. This is close to how C implements include. % reference here?
+As mentioned in Chapter \ref{motivations}, one of the main problems I had with ARM programming was keeping my code organised as I was learning the intricacies of ARM while trying to write code. Now armed with a little more experience, I wanted to ensure that my code was kept organised from the start. I decided the best way to start would be to organise my main file \verb|os.s|. It had a lot of the handlers required in the same file, which I felt was not great practice as it does not allow for a separation of concerns. I organised this file by making use of the INCLUDE mnemonic. This mnemonic is similar in concept to an import command in Java or Python except it differs in its exact implementation. The INCLUDE directive provided by my assembler has the effect of moving the code from the specified file to the location of the INCLUDE command. This is close to how C implements include. % reference here?
 
 \begin{lstlisting}[
 	style = myListingStyle,
@@ -57,7 +57,7 @@ To keep my code organised and readable, I picked up a few conventions along the 
 I also utilised the \verb|EQU| directive often, in order to aid the readability of my code. For any constant or immediate value used (other than simple values such as -1, 0, 1, 2, 4) I would aim to name them, and then only use the label. Another benefit of using this directive is that I could use them to do arithmetic to define how much space I would statically assign to blocks of memory. This was useful when designing the process control block, as I could scale how much memory I would need according to a single constant MAX\_THREADS. The ability to perform arithmetic operations with aliased names made scaling the program much easier. 
 Finally, the last convention I imposed on myself was to write a commentary along some of the more technically challenging aspects of the code. For example the context switching procedure is the most complex thing I've written in ARM if not in all languages. So while writing this code I would start by writing a short comment describing the small subtask I wanted to complete, before  writing the code to complete this subtask. This was quite a time-consuming process, as any changes which I needed to make usually meant that I had to re-write my comments. Due to this, I only employed this strategy when it was really necessary. I found this so helpful, that I would often describe the problems I needed to overcome for a specific subroutine in the subroutines' header. This acted as a cheaper way of documenting my code well without spending too much time on it. 
 \subsection{Virtual Screen}
-The installation of Komodo which I was developing for had a virtual screen (as described in figure \ref{fig:LCDMem}) which I could manipulate. I wanted to provide some methods to the user which could be used to manipulate the screen. The screen appears in memory as a large frame buffer. This is in contrast to how most real world alternatives would present themselves. For example, if you were to use a Hitachi HD44780 \cite{datasheet}, you would find that it presents its self as a more `intelligent` controllable device. Rather than writing directly to the frame-buffer to write characters, it is far more efficient to give it commands to write the characters, which it can then carry out itself. As the virtual screen does not contain these methods, I have to make them myself. I have done this before in COMP22712, however I felt I had an opportunity to improve upon this code. My previous code also could only print in black and white which I felt was somewhere I could improve in. My new functions would take a pointer to a string as a parameter as well as a pointer to 6 bytes defining the RGB colour of the background and text colour. 
+The installation of Komodo which I was developing for had a virtual screen (as described in figure \ref{fig:LCDMem}) which I could manipulate. I wanted to provide some methods to the user which could be used to manipulate the screen. The screen appears in memory as a large frame buffer. This is in contrast to how most real world alternatives would present themselves. For example, if you were to use a Hitachi HD44780 \cite{datasheet}, you would find that it presents its self as a more `intelligent` controllable device. Rather than writing directly to the frame-buffer to write characters, it is far more efficient to give it commands to write the characters, which it can then carry out itself. As the virtual screen does not contain these methods, I have to make them myself. I have done this before, however I felt I had an opportunity to improve upon this code. My previous code also could only print in black and white which I felt was somewhere I could improve in. My new functions would take a pointer to a string as a parameter as well as a pointer to 6 bytes defining the RGB colour of the background and text colour. 
 
 
 The procedure I developed to print a single character is shown in listing \ref{lst:printchar_pseudo}. This procedure would be called for every character in a string in order to provide the print string function. 
@@ -79,7 +79,7 @@ The procedure I developed to print a single character is shown in listing \ref{l
 		halt the processor
 	}
 \end{lstlisting}
-The challenge of writing characters to the LCD essentially boils down to two main problems - Outputting a character template and keeping track of where the cursor is. Both problems are relatively trivial to solve, however how to write code to solve them efficiently is difficult.
+The challenge of writing characters to the screen essentially boils down to two main problems - Outputting a character template and keeping track of where the cursor is. Both problems are relatively trivial to solve, however how to write code to solve them efficiently is difficult.
 \subsubsection{Keeping the cursor position consistent}
 I solved this problem by first handling the control characters. These characters are the ASCII characters used to control the movement of the cursor. I chose to determine which control character I was working with via a simple jump table. This has the benefit of allowing me to add more control characters easily. Once I have jumped to the correct position I can then perform the correct operation. From here I then update the cursor position by performing the update and then checking and correcting the x and y coordinate against the bounds of the screen. A similar method is employed to correct the cursor after writing a character. Essentially every operation on the screen should leave the cursor in a position ready to print a new character. The characters I have supported are listed, and their effect is seen in Table \ref{controlcharacters}.
 \begin{table}[H]
@@ -97,7 +97,7 @@ I solved this problem by first handling the control characters. These characters
 	\end{tabular}
 \end{table}
 \subsubsection{Outputting a character}
-To output a character I use a 7 x 8 pixel font which was provided in COMP22712. It provides a font for ASCII characters 32 to 126. To determine the address of the font I have to subtract 32 from the character to normalise the character to the base of my font map. I then multiply by 7 bytes to determine the correct address. From here I have to read the loop over the 7 bytes as a 2d array essentially, with one dimension as the bytes and one dimension as the bits as demonstrated in figure \ref{fig:fontexample}.
+To output a character I use a 7 x 8 pixel font. It provides a font for ASCII characters 32 to 126. To determine the address of the font I have to subtract 32 from the character to normalise the character to the base of my font map. I then multiply by 7 bytes to determine the correct address. From here I have to read the loop over the 7 bytes as a 2d array essentially, with one dimension as the bytes and one dimension as the bits as demonstrated in figure \ref{fig:fontexample}.
 
 
 \begin{figure}[H]
@@ -117,7 +117,34 @@ To output a character I use a 7 x 8 pixel font which was provided in COMP22712. 
 
 
 \subsection{The SVC Handler}
-My SVC handler was one of the few pieces of code which I felt I could salvage from my work in COMP22712. The handler provides an organised way to interpret an SVC instruction and determine which operation to direct the processor to. It determines which program to jump to by reading the instruction in the link register. The handler then clears the opcode, leaving a 24 bit value which represents which program the SVC commands is referencing. It checks this code against the SVC\_MAX constant. This is a security measure to ensure that the SVC command cannot branch to any arbitrary code. In a single ADD instruction it then multiplies the SVC constant by 4 to get a words address and then adds it to the PC. The next instruction loads the address at this address to the program counter which causes the handler to jump to the correct position. This jump table method is an alternative to the most simple form of SVC handler which is a long string of 'switch style statements'. I chose the jump table over this method as I needed to support 12 methods, so a long chain of switch statement would not be particularly efficient. The operations I supported are as follows:
+The SVC handler is a program used to allow users to safely execute code which may require higher privileges. For example, if a user wanted to read data from a peripheral, this may be acceptable to the OS, but it has to be done in a controlled way. The OS provides the SVC handler as a way of enabling this access without letting the user handle the specifics. The handler provides an organised way to interpret an SVC instruction and determine which operation to direct the processor to. It determines which program to jump to by reading the instruction in the link register. The handler will read the instruction pointed to by the LR and strip the instruction of its op code. This has the effect of leaving the parameter of the SVC instruction which can be used to compare against the implemented SVC routines. It checks this code against the SVC\_MAX constant. This constant defines the highest identifier supported by the chip.  This is a security measure to ensure that the SVC command cannot branch to any arbitrary code. In a single ADD instruction it then multiplies the SVC constant by 4 to get a words address and then adds it to the PC. The next instruction loads the address at this address to the program counter which causes the handler to jump to the correct position. This jump table method is also described in listing \ref{lst:svcexample}. I chose the jump table method as I needed to support 12 methods, so a long chain of switch statements to determine the SVC parameter would not be particularly efficient. The jump table method is a far more effective way of directing execution to the correct procedure
+
+
+\begin{lstlisting}[
+	style = myListingStyle,
+	caption = {The SVC handler},
+	label = {lst:svcexample}
+	]
+	LDR R14, [LR, #-4]        ; Read the caller svc command into R14
+	BIC R14, R14, #&FF000000  ; Clear the opcode
+	
+	LDR R3, SVC_MAX	          ; Check user is not trying to execute arbitrary code
+	CMP R14, R3 
+	BHI SVC_unknown
+	
+	SUB R14, R14, #&100       ; Normalise base of SVCs
+	ADD R14, PC, R14, LSL #2  ; Calculate SVC jump point in the table
+	LDR PC, [R14] 		  ; Perform Jump       
+	
+	DEFW SVC_0  ; halt
+	DEFW SVC_1  ; printchar
+	DEFW SVC_2  ; printstr
+	...	
+	
+\end{lstlisting}
+
+
+The operations I supported are as follows:
 
 \begin{tabular}{cl cl}
 	halt & (Halts the processor) \\
@@ -133,6 +160,7 @@ My SVC handler was one of the few pieces of code which I felt I could salvage fr
 	end\_thread & (Kills the current thread) \\
 	halt\_thread\_for\_IO & (Halts the thread until input occurs and then runs query\_keyboard) \\
 \end{tabular} 
+\bigskip
 
 My SVC handler also includes a brief exit procedure which is always jumped to after completing an operation. This procedure just re-enables interrupts as the processor disables them during the SVC entry procedure to ensure that the operations execute atomically. 
 \subsection{The IRQ Handler}

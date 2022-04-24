@@ -1,14 +1,13 @@
 \begin{thebibliography}{10}
 
-\bibitem{glade}
-{Glade - A User Interface Designer}.
-\newblock \url{https://glade.gnome.org/}.
-\newblock Accessed: \today.
+\bibitem{os}
+W~Stallings.
+\newblock {\em {Operating Systems}}.
+\newblock 2011.
 
-\bibitem{kmd}
-{KMD - Komodo Manchester Debugger}.
-\newblock
-  \url{https://studentnet.cs.manchester.ac.uk/resources/software/komodo/}.
+\bibitem{windows}
+{Windows [Operating System]}.
+\newblock \url{https://www.microsoft.com/en-us/windows?r=1}.
 \newblock Accessed: \today.
 
 \bibitem{apple}
@@ -16,24 +15,22 @@
 \newblock \url{https://www.apple.com/uk/macos/}.
 \newblock Accessed: \today.
 
-\bibitem{python}
-{Python}.
-\newblock \url{https://www.python.org/}.
+\bibitem{linux}
+Linus Torvalds.
+\newblock {Linux [Operating System]}.
+\newblock \url{https://www.github.com/torvalds/linux/releases/tag/v4.1-rc8}.
+  Accessed: \today.
+
+\bibitem{process}
+Daniel P.Bovet \&~Marco Cesati.
+\newblock {\em Understanding the Linux Kernel}.
+\newblock 2005.
+
+\bibitem{kmd}
+{KMD - Komodo Manchester Debugger}.
+\newblock
+  \url{https://studentnet.cs.manchester.ac.uk/resources/software/komodo/}.
 \newblock Accessed: \today.
-
-\bibitem{windows}
-{Windows [Operating System]}.
-\newblock \url{https://www.microsoft.com/en-us/windows?r=1}.
-\newblock Accessed: \today.
-
-\bibitem{arm_man}
-{\em ARM Assembly Language, 2nd Edition}.
-\newblock CRC Press, 2014.
-
-\bibitem{datasheet}
-Ltd Hitachi.
-\newblock {\em HD44780U (LCD-II) (Dot Matrix Liquid Crystal Display
-  Controller/Driver)}, 1998.
 
 \bibitem{ascii}
 The American National~Standards Institute.
@@ -41,15 +38,28 @@ The American National~Standards Institute.
 \newblock \url{https://www.asciitable.com/}.
 \newblock Accessed: \today.
 
+\bibitem{glade}
+{Glade - A User Interface Designer}.
+\newblock \url{https://glade.gnome.org/}.
+\newblock Accessed: \today.
+
+\bibitem{python}
+{Python}.
+\newblock \url{https://www.python.org/}.
+\newblock Accessed: \today.
+
 \bibitem{cbook}
 Brian~W Kernighan and Dennis~M Ritchie.
 \newblock {\em The C programming language}.
 \newblock 2006.
 
-\bibitem{linux}
-Linus Torvalds.
-\newblock {Linux [Operating System]}.
-\newblock \url{https://www.github.com/torvalds/linux/releases/tag/v4.1-rc8}.
-  Accessed: \today.
+\bibitem{datasheet}
+Ltd Hitachi.
+\newblock {\em HD44780U (LCD-II) (Dot Matrix Liquid Crystal Display
+  Controller/Driver)}, 1998.
+
+\bibitem{arm_man}
+{\em ARM Assembly Language, 2nd Edition}.
+\newblock CRC Press, 2014.
 
 \end{thebibliography}
