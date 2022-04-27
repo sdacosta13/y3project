@@ -10,6 +10,9 @@ The keyboard was based of my real world keyboard. Due to this many of the keys a
 	\label{fig:keyboard}
 \end{figure} 
 
+
+
+
 \subsection{Implementation}
 \subsubsection{Python Script}
 The virtual keyboard is implemented as a python \cite{python} script which runs in a separate process forked by Jimulator at runtime. This script simply loads the XML file produced by glade and runs the window seen by the user. It then continuously loops, checking for any change in state of the buttons. It can then use this data to report any state changes.  These state changes are written to a block of shared memory created in this python script. The Jimulator plug-in reads this shared memory and writes it to an interface in komodo's memory.
@@ -20,8 +23,26 @@ The Jimulator Plug-in is called by on Komodo loading. This C++ plug-in \cite{cbo
 	\caption{The full integration of the virtual keyboard with Komodo.}
 	\label{fig:keyboard_integration}
 \end{figure} 
-\subsubsection{The keyboard interface in Komodo}
-I have worked with the interface described in figure \ref{fig:keypad} before, so when developing a new interface I took what I learnt from using this. The described interface is efficient in terms of space complexity, however this results in a much larger burden on the software required to poll it. Polling this keypad requires the system to activate the individual scan-lines located in bits 7, 6 and 5, and read the output. This would take a long time with a device as large as my keyboard, and the problem is further complicated by the arrangement of my keys, as they do not conform to an \verb|n x m| grid like the keypad does. Therefore, I chose that the interface should consist of three 32bit registers to return the data. The registers represent respectively, the acknowledge register, the data register, and the direction register. The data register will be written to with an ASCII value which should be interpreted. For keys which don't have a direct ASCII value such as the caps-lock, windows and alt button, these have values in excess of 255. This is to enable ASCII compatibility while still allowing the system to detect key press on keys not in the character set. However, this does mean that this system cannot be compatible with the extended ASCII character set, without some significant reworking. The direction register will contain a 1 or a 0 to represent a push or an un-push respectively. The acknowledge register, is written to by ARM to signal the plug-in that data has been read, and buffer is free to write to. 
+\subsubsection{The Keyboard Interface In Komodo}
+I have worked with the interface described in figure \ref{fig:keypad} before, so when developing a new interface I took what I learnt from using this. The described interface is efficient in terms of space complexity, however this results in a much larger burden on the software required to poll it. Polling this keypad requires the system to activate the individual scan-lines located in bits 7, 6 and 5, and read the output. This would take a long time with a device as large as my keyboard, and the problem is further complicated by the arrangement of my keys, as they do not conform to an \verb|n x m| grid like the keypad does. Therefore, I chose that the interface should consist of the three 32 bit registers to return the data. 
+
+
+\subsection{Reverse Engineering The Jimulator Plug-in}
+I had to develop the Jimulator Plug-in with only the source code of a few other plug-ins to use as a reference. While these plug-ins were effective for developing the functionality required to connect shared memory and fork processes, they didn't explain the minutiae of how to implement the functions Jimulator required. From reading these plug-ins I could determine that I needed to implement the following functions:
+\begin{lstlisting}[
+	style = myListingStyle,
+	caption = {Jimulator functions}
+	]
+boolean constructor(unsigned char *name, unsigned char *arguments)
+boolean destructor(unsigned char *name)
+void irq_handler(uint8_t *irq, uint8_t *fiq)
+boolean mem_r_handler(uint address, uint *data, int size, boolean sign, boolean T, int source, boolean* abort)
+boolean mem_w_handler(uint address, uint data, int size, boolean T, int source, boolean* abort)
+\end{lstlisting}
+
+Of these functions, the most critical to understand were the \verb|mem_r_handler|, \verb|mem_w_handler| and \verb|irq_handler|. From my testing, I determined that these are called each clock cycle. In addition I determined that they should return a boolean value representing whether the function had handled the call on the parameters. For example, if I made a valid read to my keyboard interface, the \verb|mem_r_handler| would return a \verb|True| whereas a read to random address in memory should return a \verb|False|. The functions also needed to update the abort pointer with a boolean value, determining whether to signal the emulator to trigger an abort. This would have the usual effect of a data abort in ARM, it would switch mode to abort mode, and maintain the failing operation address in the LR.
+
+
 
 \subsection{Evaluation and Improvements}
 The keyboard does accomplish Objective 2 to some degree of success. It does reliably dispatch keys to the Operating system to handle. However, there are some minor improvement which I would have liked to have made. For example, this keyboard contains a single buffered item. Most modern keyboards have a larger buffer so that it is possible to queue up keys in the buffer. This ensures that the Operating system does not miss keys due to a full buffer. My current implementation will grab the first key and then not be able to read more items due to the full buffer. This makes the prompt reading of the buffer critical as keystrokes are often followed by the key being released. Clearly this is a rather significant flaw, however it does not detract from my original goal for the keyboard which was to give the operating system some IO to manage, and some reasons to suspend threads. The keyboard does actually function relatively well as a keyboard despite the small buffer due to the fact that its is a virtual keyboard only accessible by clicking. This means its quite hard to `type` fast, so in reality the buffer issue doesn't impact its effectiveness as much as you might think. The keyboard is also able to recognise capital letters via the use of the caps-lock button as well as grammar characters and what I refer to as control characters. The control characters are the keys I used to implement the ASCII characters backspace, horizontal tabulate, line feed, and carriage return. This was one of the more difficult features to implement as it these characters require special handling.

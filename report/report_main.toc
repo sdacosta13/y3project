@@ -11,8 +11,9 @@
 \contentsline {subsection}{\numberline {3.2}Implementation}{9}{subsection.3.2}%
 \contentsline {subsubsection}{\numberline {3.2.1}Python Script}{9}{subsubsection.3.2.1}%
 \contentsline {subsubsection}{\numberline {3.2.2}Jimulator Plug-in Integration}{10}{subsubsection.3.2.2}%
-\contentsline {subsubsection}{\numberline {3.2.3}The keyboard interface in Komodo}{11}{subsubsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.3}Evaluation and Improvements}{11}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.2.3}The Keyboard Interface In Komodo}{11}{subsubsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.3}Reverse Engineering The Jimulator Plug-in}{11}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4}Evaluation and Improvements}{12}{subsection.3.4}%
 \contentsline {section}{\numberline {4}The Basic OS}{13}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Layout and structuring}{13}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Self Imposed Conventions}{14}{subsection.4.2}%
@@ -20,16 +21,16 @@
 \contentsline {subsubsection}{\numberline {4.3.1}Keeping the cursor position consistent}{16}{subsubsection.4.3.1}%
 \contentsline {subsubsection}{\numberline {4.3.2}Outputting a character}{17}{subsubsection.4.3.2}%
 \contentsline {subsection}{\numberline {4.4}The SVC Handler}{17}{subsection.4.4}%
-\contentsline {subsection}{\numberline {4.5}The Reset handler}{19}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.5}The Reset Handler}{19}{subsection.4.5}%
 \contentsline {subsection}{\numberline {4.6}Data Structures and Unit testing}{20}{subsection.4.6}%
 \contentsline {section}{\numberline {5}Implementing Thread Switching}{22}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Thread switching in Unix}{22}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}The challenges of thread switching}{22}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.1}Thread Switching In Unix}{22}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}The Challenges of Thread Switching}{22}{subsection.5.2}%
 \contentsline {subsubsection}{\numberline {5.2.1}When is the time-slicing procedure called?}{24}{subsubsection.5.2.1}%
 \contentsline {subsubsection}{\numberline {5.2.2}When can I safely interrupt?}{24}{subsubsection.5.2.2}%
 \contentsline {subsubsection}{\numberline {5.2.3}How do I ensure the user stacks consistency?}{25}{subsubsection.5.2.3}%
 \contentsline {subsubsection}{\numberline {5.2.4}How do you store and load a thread's context?}{26}{subsubsection.5.2.4}%
-\contentsline {subsection}{\numberline {5.3}Integration with the virtual keyboard}{28}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.3}Integration With The Virtual Keyboard}{28}{subsection.5.3}%
 \contentsline {subsection}{\numberline {5.4}Sheduling}{28}{subsection.5.4}%
 \contentsline {subsection}{\numberline {5.5}Evaluation of threading system}{29}{subsection.5.5}%
 \contentsline {section}{\numberline {6}Reflection and Conclusions}{30}{section.6}%

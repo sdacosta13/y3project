@@ -1,4 +1,4 @@
-\subsection{Thread switching in Unix}
+\subsection{Thread Switching In Unix}
 Thread switching is the process of interrupting the execution of the CPU to store its current work and load other work. When this work is in the same virtual memory space, this is known as a thread rather than a process. This mechanic can allow Operating Systems to provide more advanced features such as perceived multitasking and interrupt based input handling. In Unix, context switching is performed by saving the current process to the Process Control Block (PCB) before loading the new process from the PCB. The PCB contains all of the data relevant to each processes including the registers, stack pointers, program counter and page tables. This switching can have a significant impact on performance as caches relevant to the previous thread must be flushed as they all reference a previous thread so cache hits reduce dramatically. Allowing this context switching means that each thread can operate within a time-slice dictated by the scheduler. Each thread will be given a certain amount of time to get is work done, before it is forced to wait for other processes.
 
 The context switch is only half of the problem with thread switching. The other half is choosing which thread to run after a switch. This problem can be solved in many different ways, and each solution is better suited for different needs. These solutions are known as policies. Policies which exist include:
@@ -13,7 +13,7 @@ The context switch is only half of the problem with thread switching. The other 
 \end{itemize}
 
 
-\subsection{The challenges of thread switching}
+\subsection{The Challenges of Thread Switching}
 \label{chap:Threading}
 That challenges of thread switching in ARM stem from the difficulty in storing a threads context in a way which is recoverable from any point without losing any state. Each thread must save its own registers, stacks, program counter, processor flags and link register. A good place to tackle this problem is to start from looking at how a procedure call works in ARM. Procedure calls in ARM are somewhat similar in concept, but they differ in scope. The procedure calls \cite{arm_man} I used in ARM consisted of the following steps
 \begin{itemize}
@@ -74,7 +74,7 @@ These instructions work by manipulating the address in R3 which points to the CP
 The procedure to store threads is somewhat more convoluted than the loading procedure. Once the address of the threads state is calculated, the first task is store the thread's CPSR. This is done by storing the current SPSR, as this procedure is called from IRQ mode so the SPSR holds a copy of the last thread's CPSR. Then to store the SP and LR, I use the \verb|STMIA| commands with the caret. This allows me to access the user mode registers. This is important as different modes have their own copies of the SP and LR which the caret enables me to access. I enter this procedure from my IRQ handler, which will push my user register to the stack as its first action. I have to retrieve these registers first by popping them. Once popped I then need to store them to the PCB via pushing. I then have to reset the SP to before the register R0 - R12 are pushed. This is  to ensure that the SP is correct for the next time that IRQ mode is entered. If this step is not taken, then every time the time slicing operation is called, the IRQ stack will grow by thirteen bytes. This will then cause the stack to overrun, which is unrecoverable, at least in this system.
 
 
-\subsection{Integration with the virtual keyboard}
+\subsection{Integration With The Virtual Keyboard}
 A part of the reason to implement threading was to enable efficient querying of the keyboard via interrupts enabling halted IO threads. Due to this it was important to ensure that the virtual keyboard could seamlessly integrate with the threading system. On account of this I developed a second method to query my keyboard as an alternative to my polling method. This method is composed of the following steps:
 
 \begin{itemize}

@@ -164,7 +164,7 @@ The operations I supported are as follows:
 
 My SVC handler also includes a brief exit procedure which is always jumped to after completing an operation. This procedure just re-enables interrupts as the processor disables them during the SVC entry procedure to ensure that the operations execute atomically. 
 %\subsection{The IRQ Handler}
-\subsection{The Reset handler}
+\subsection{The Reset Handler}
 The system should be able to run from two different but similar starting points. The usual way to run the code is to load the assemble files into Komodo and run them. However, Komodo also provides a reset function button. This button has the following effect:
 
 \begin{lstlisting}[
@@ -209,7 +209,7 @@ When writing in assembly, the lack of features can be an issue in need of resolv
 \end{lstlisting}
 
 In python this gives you access to various operation you can perform on the list such as \verb|append()|, \verb|insert|, \verb|pop()|, \verb|len()| and  \verb|sort()| to name a few. In contrast, in ARM the equivalent code would have to be written and tested by yourself. Therefore, as I knew I would need a queue data structure to implement the scheduler, I developed an implementation for a queue, with procedures I could call,
- such as \verb|queue_push|, \verb|queue_pop|, \verb|queue_utilisation|, \verb|clear_queue|, \verb|queue_find| and \verb|queue_index|. In my experience data structures like these usually form the building blocks of code, so they have to be well tested, so you can rely on their operation. Hence, I decided to experiment with unit testing in ARM. In previous work in higher level languages, I have used technologies such as JUnit \cite{junit} and Nunit \cite{nunit} to test Java \cite{java} and C\# \cite{csharp} code respectively.  I wanted to test my code in a similar style, using unit tests to test individual procedure calls and test their functionality. This was with the ultimate goal of developing a data structure which had been properly debugged before its use. I developed the files \verb|queue.s| and \verb|queue_testing.s|
+ such as \verb|queue_push|, \verb|queue_pop|, \verb|queue_utilisation|, \verb|clear_queue|, \verb|queue_find| and \verb|queue_index|. In my experience data structures like these usually form the building blocks of code, so they have to be well tested, so you can rely on their operation. Hence, I decided to experiment with unit testing in ARM. In previous work in higher level languages, I have used technologies such as JUnit \cite{junit} and Nunit \cite{nunit} to test Java \cite{java} and C\# \cite{csharp} code respectively.  I wanted to test my code in a similar style, using unit tests to test individual procedure calls and test their functionality. This was with the ultimate goal of developing a data structure which had been properly debugged before its use. I developed the files \verb|queue.s| and \verb|queue_testing.s| which contained the implementation of a queue and the unit test for this data structure respectively. I found that creating a testing suite for pivotal blocks of code like this was a particularly effective way of ensuring the reliability of critical code. Throughout the remainder of the project, I did not encounter any bugs regarding my queue implementation. 
 
 
 
