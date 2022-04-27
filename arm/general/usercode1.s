@@ -15,18 +15,13 @@ MOV R12, #12
 
 ADRL R0, thread2
 BL create_thread
+ADRL R0, thread3
+BL create_thread
 
 
 
-; ~ 0xDE0C
-
-;BLEQ end_thread
 thread1
 ADD R2, R2, #1
-CMP R2, #&100
-PUSH {R2}
-BEQ halt
-;BEQ exit_thread
 B thread1
 
 
@@ -42,6 +37,13 @@ B halt
 thread2
 ADD R3, R3, #1
 B thread2
+
+thread3
+ADD R4, R4, #1
+B thread3
+
+
+
 
 
 exit_thread

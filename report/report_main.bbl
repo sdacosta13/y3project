@@ -51,15 +51,40 @@ The American National~Standards Institute.
 \bibitem{cbook}
 Brian~W Kernighan and Dennis~M Ritchie.
 \newblock {\em The C programming language}.
-\newblock 2006.
+\newblock {Prentice Hall PTR}, 2006.
 
 \bibitem{datasheet}
 Ltd Hitachi.
 \newblock {\em HD44780U (LCD-II) (Dot Matrix Liquid Crystal Display
   Controller/Driver)}, 1998.
 
+\bibitem{junit}
+{JUnit Homepage}.
+\newblock \url{https://junit.org/junit5/}.
+\newblock Accessed: \today.
+
+\bibitem{nunit}
+{NUnit Homepage}.
+\newblock \url{https://nunit.org/}.
+\newblock Accessed: \today.
+
+\bibitem{java}
+{Java Homepage}.
+\newblock \url{https://www.java.com/en/}.
+\newblock Accessed: \today.
+
+\bibitem{csharp}
+{C# Documentaion}.
+\newblock \url{https://docs.microsoft.com/en-us/dotnet/csharp/}.
+\newblock Accessed: \today.
+
 \bibitem{arm_man}
 {\em ARM Assembly Language, 2nd Edition}.
 \newblock CRC Press, 2014.
+
+\bibitem{CFS}
+{CFS: Completely fair process scheduling in Linux}.
+\newblock \url{https://opensource.com/article/19/2/fair-scheduling-linux}.
+\newblock Accessed: \today.
 
 \end{thebibliography}

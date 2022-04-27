@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.4.5)  24 APR 2022 17:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2022.4.5)  27 APR 2022 12:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -339,42 +339,42 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./report_main.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 2.
-)
+ [2])
 \tf@toc=\write4
 \openout4 = `report_main.toc'.
 
- [2] [3] (./intro.tex [4]) [5]
+ [3] (./intro.tex [4]) [5]
 (./motivation.tex [6]
-<figures/keypad.png, id=212, 641.39626pt x 541.02126pt>
+<figures/keypad.png, id=247, 641.39626pt x 541.02126pt>
 File: figures/keypad.png Graphic file (type png)
 <use figures/keypad.png>
 Package pdftex.def Info: figures/keypad.png  used on input line 22.
 (pdftex.def)             Requested size: 180.0pt x 151.83163pt.
-<figures/LCD.png, id=213, 557.08125pt x 450.68375pt>
+<figures/LCD.png, id=248, 557.08125pt x 450.68375pt>
 File: figures/LCD.png Graphic file (type png)
 <use figures/LCD.png>
 Package pdftex.def Info: figures/LCD.png  used on input line 30.
 (pdftex.def)             Requested size: 180.0pt x 145.61774pt.
 ) [7 <./figures/keypad.png>] [8 <./figures/LCD.png>]
 (./virtualKeyboard.tex
-<figures/keyboard.png, id=230, 881.2925pt x 222.8325pt>
+<figures/keyboard.png, id=265, 881.2925pt x 222.8325pt>
 File: figures/keyboard.png Graphic file (type png)
 <use figures/keyboard.png>
 Package pdftex.def Info: figures/keyboard.png  used on input line 8.
 (pdftex.def)             Requested size: 360.0pt x 91.0253pt.
-<figures/jimulator.png, id=234, 714.67pt x 214.8025pt>
+<figures/jimulator.png, id=269, 714.67pt x 214.8025pt>
 File: figures/jimulator.png Graphic file (type png)
 <use figures/jimulator.png>
 Package pdftex.def Info: figures/jimulator.png  used on input line 19.
 (pdftex.def)             Requested size: 360.0pt x 108.204pt.
- [9 <./figures/keyboard.png>]) [10 <./figures/jimulator.png>] [11] (./basicOS.t
-ex [12] [13] [14] [15]
-<figures/font.png, id=330, 358.33875pt x 213.79875pt>
+ [9 <./figures/keyboard.png>] [10 <./figures/jimulator.png>]) [11] [12] (./basi
+cOS.tex [13] [14] [15] [16]
+<figures/font.png, id=370, 358.33875pt x 213.79875pt>
 File: figures/font.png Graphic file (type png)
 <use figures/font.png>
 Package pdftex.def Info: figures/font.png  used on input line 105.
 (pdftex.def)             Requested size: 180.0pt x 107.39497pt.
-<figures/fontmap.png, id=331, 479.7925pt x 536.0025pt>
+<figures/fontmap.png, id=371, 479.7925pt x 536.0025pt>
 File: figures/fontmap.png Graphic file (type png)
 <use figures/fontmap.png>
 Package pdftex.def Info: figures/fontmap.png  used on input line 108.
@@ -384,20 +384,26 @@ Overfull \hbox (2.43333pt too wide) in paragraph at lines 104--110
 []$[]$ $[]$ 
  []
 
-[16 <./figures/font.png> <./figures/fontmap.png>]
+[17 <./figures/font.png> <./figures/fontmap.png>]
 Overfull \hbox (93.49313pt too wide) in paragraph at lines 149--164
 [][]
  []
 
-[17]) [18] (./threadSwitching.tex [19]
-<figures/cswitch.png, id=369, 428.60126pt x 213.79875pt>
+[18] [19]
+<figures/reset.png, id=408, 629.35126pt x 461.725pt>
+File: figures/reset.png Graphic file (type png)
+<use figures/reset.png>
+Package pdftex.def Info: figures/reset.png  used on input line 194.
+(pdftex.def)             Requested size: 360.0pt x 264.11597pt.
+ [20 <./figures/reset.png>]) [21] (./threadSwitching.tex [22]
+<figures/cswitch.png, id=434, 428.60126pt x 213.79875pt>
 File: figures/cswitch.png Graphic file (type png)
 <use figures/cswitch.png>
 Package pdftex.def Info: figures/cswitch.png  used on input line 38.
 (pdftex.def)             Requested size: 360.0pt x 179.57993pt.
- [20] [21 <./figures/cswitch.png>]
-[22]
-<figures/PCB.png, id=384, 579.16376pt x 997.7275pt>
+ [23]
+[24 <./figures/cswitch.png>] [25]
+<figures/PCB.png, id=450, 579.16376pt x 997.7275pt>
 File: figures/PCB.png Graphic file (type png)
 <use figures/PCB.png>
 Package pdftex.def Info: figures/PCB.png  used on input line 51.
@@ -412,25 +418,46 @@ Underfull \hbox (badness 1515) in paragraph at lines 55--58
 \OT1/cmr/m/n/10.95 pro-ces-sor state. This is
  []
 
-[23 <./figures/PCB.png>] [24]) [25] (./conclusions.tex) [26] (./references.tex
-(./report_main.bbl)) [27]
+[26 <./figures/PCB.png>] [27] [28]) [29] (./conclusions.tex) [30]
+(./references.tex (./report_main.bbl
+! You can't use `macro parameter character #' in horizontal mode.
+l.77 {C#
+         Documentaion}.
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+
+Underfull \hbox (badness 1622) in paragraph at lines 77--80
+[]\OT1/cmr/m/n/10.95 C Doc-u-men-taion.  []$\OT1/cmtt/m/n/10.95 https : / / doc
+s . microsoft . com / en-[]us / dotnet /
+ []
+
+
+Underfull \hbox (badness 2221) in paragraph at lines 86--89
+[]\OT1/cmr/m/n/10.95 CFS: Com-pletely fair pro-cess schedul-ing in Linux.  []$\
+OT1/cmtt/m/n/10.95 https : / /
+ []
+
+[31])) [32]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 71.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 71.
  (./report_main.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 71.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 71.
 Package rerunfilecheck Info: File `report_main.out' has not changed.
-(rerunfilecheck)             Checksum: B217DE59DD97582D6C370F197DD90A20;2365.
+(rerunfilecheck)             Checksum: 1AD2874893680F5CE11257FBCDFA5033;2891.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 71.
  ) 
 Here is how much of TeX's memory you used:
- 8686 strings out of 483183
- 132119 string characters out of 5966293
- 433031 words of memory out of 5000000
- 23408 multiletter control sequences out of 15000+600000
+ 8731 strings out of 483183
+ 132730 string characters out of 5966293
+ 433313 words of memory out of 5000000
+ 23428 multiletter control sequences out of 15000+600000
  538532 words of font info for 45 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 41i,8n,44p,1927b,1819s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,8n,44p,1928b,1819s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/sam/.texlive2019/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1095.600pk
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share
@@ -439,10 +466,10 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmtt10.pfb>
-Output written on report_main.pdf (27 pages, 353370 bytes).
+Output written on report_main.pdf (32 pages, 408409 bytes).
 PDF statistics:
- 489 PDF objects out of 1000 (max. 8388607)
- 439 compressed objects within 5 object streams
- 153 named destinations out of 1000 (max. 500000)
- 305 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 576 PDF objects out of 1000 (max. 8388607)
+ 519 compressed objects within 6 object streams
+ 177 named destinations out of 1000 (max. 500000)
+ 366 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -35,4 +35,4 @@ INCLUDE definitions/character_definitions.s
 
 
 ALIGN
-INCLUDE general/usercode.s
+INCLUDE general/usercode1.s

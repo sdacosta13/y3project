@@ -51,7 +51,7 @@ To keep my code organised and readable, I picked up a few conventions along the 
 	
 	; Actual procedure code goes here.	
 	
-	PUSH {R0 - R1, R3 - R12, LR}^  ;return
+	PUSH {R0 - R1, R3 - R12, PC}  ;return
 	
 \end{lstlisting}
 I also utilised the \verb|EQU| directive often, in order to aid the readability of my code. For any constant or immediate value used (other than simple values such as -1, 0, 1, 2, 4) I would aim to name them, and then only use the label. Another benefit of using this directive is that I could use them to do arithmetic to define how much space I would statically assign to blocks of memory. This was useful when designing the process control block, as I could scale how much memory I would need according to a single constant MAX\_THREADS. The ability to perform arithmetic operations with aliased names made scaling the program much easier. 
@@ -163,4 +163,72 @@ The operations I supported are as follows:
 \bigskip
 
 My SVC handler also includes a brief exit procedure which is always jumped to after completing an operation. This procedure just re-enables interrupts as the processor disables them during the SVC entry procedure to ensure that the operations execute atomically. 
-\subsection{The IRQ Handler}
+%\subsection{The IRQ Handler}
+\subsection{The Reset handler}
+The system should be able to run from two different but similar starting points. The usual way to run the code is to load the assemble files into Komodo and run them. However, Komodo also provides a reset function button. This button has the following effect:
+
+\begin{lstlisting}[
+	style = myListingStyle,
+	caption = {The reset mechanic provided by ARM},
+	label = {lst:reset}
+	]
+	PC <= 0x0000_0000
+	Mode <= Supervisor
+	Interrupts <= Disabled
+\end{lstlisting}
+The reset function means that I have to reset enough of my state in my reset handler in order to create a recoverable state. Without careful and consistent updates to my reset handler, I can run into a situation where a reset does not correctly reset read/write data statically defined in memory. Take for example the \verb|cursorposx| and \verb|cursorposy| memory locations. These represent the coordinates of the next character on the screen to be written to. Reloading the assembled code in Komodo will correctly set these values to 0,0 respectively. However, if the reset button is pushed, these addresses must be written to in order to reset them. Some of the actions my reset handler must perform are as follows:
+
+\begin{itemize}
+	\item Move the cursor back to 0,0
+	\item Clear the screen
+	\item Reset the timer
+	\item Reinitialise the pointers of the SVC and IRQ stacks
+	\item Clear the PCB of previous processes
+	\item Re-enable interrupts
+	\item Initialise the main thread
+\end{itemize}
+
+Thankfully, this task is simplified by most of the memory being assumed to be undefined. This means that data structures like the stack, I can merely reset the pointer, and future memory will be overwritten during execution.
+
+\begin{figure}[ht!]
+	\includegraphics[width=\linewidth]{figures/reset.png}
+	\caption{How stacks are reset.}
+	\label{fig:reset}
+\end{figure} 
+
+
+\subsection{Data Structures and Unit testing}
+When writing in assembly, the lack of features can be an issue in need of resolving. For example, in a high level language like python for example, you can create a list in memory by a single command: 
+
+
+\begin{lstlisting}[
+	style = myListingStyle,
+	label = {lst:pythonlist}
+	]
+	my_list = []
+\end{lstlisting}
+
+In python this gives you access to various operation you can perform on the list such as \verb|append()|, \verb|insert|, \verb|pop()|, \verb|len()| and  \verb|sort()| to name a few. In contrast, in ARM the equivalent code would have to be written and tested by yourself. Therefore, as I knew I would need a queue data structure to implement the scheduler, I developed an implementation for a queue, with procedures I could call,
+ such as \verb|queue_push|, \verb|queue_pop|, \verb|queue_utilisation|, \verb|clear_queue|, \verb|queue_find| and \verb|queue_index|. In my experience data structures like these usually form the building blocks of code, so they have to be well tested, so you can rely on their operation. Hence, I decided to experiment with unit testing in ARM. In previous work in higher level languages, I have used technologies such as JUnit \cite{junit} and Nunit \cite{nunit} to test Java \cite{java} and C\# \cite{csharp} code respectively.  I wanted to test my code in a similar style, using unit tests to test individual procedure calls and test their functionality. This was with the ultimate goal of developing a data structure which had been properly debugged before its use. I developed the files \verb|queue.s| and \verb|queue_testing.s|
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

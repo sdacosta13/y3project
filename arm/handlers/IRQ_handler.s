@@ -38,6 +38,8 @@ SUB R0, R0, #32
 LDR R1, addr_keyboard_dir
 LDRB R1, [R1]
 
+
+
 ; Divide R0 by 8
 MOV R3, #0
 
@@ -66,10 +68,10 @@ unpushed
 BIC R7, R7, R5
 STRB R7, [R4]
 B IRQ_quit
+
 pushed
 ORR R7, R7, R5
 STRB R7, [R4]
-
 keyboard_thread_handling
 ;return to keyboard context here
 
@@ -82,3 +84,13 @@ B save_registers
 IRQ_quit
 POP {R0 - R12}
 SUBS PC, LR, #4 ;return to usercode
+
+
+
+
+
+
+
+
+
+;
