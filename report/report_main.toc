@@ -22,20 +22,21 @@
 \contentsline {subsubsection}{\numberline {4.3.2}Outputting a character}{17}{subsubsection.4.3.2}%
 \contentsline {subsection}{\numberline {4.4}The SVC Handler}{17}{subsection.4.4}%
 \contentsline {subsection}{\numberline {4.5}The Reset Handler}{19}{subsection.4.5}%
-\contentsline {subsection}{\numberline {4.6}Data Structures and Unit testing}{20}{subsection.4.6}%
-\contentsline {section}{\numberline {5}Implementing Thread Switching}{22}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Thread Switching In Unix}{22}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}The Challenges of Thread Switching}{22}{subsection.5.2}%
-\contentsline {subsubsection}{\numberline {5.2.1}When is the time-slicing procedure called?}{24}{subsubsection.5.2.1}%
-\contentsline {subsubsection}{\numberline {5.2.2}When can I safely interrupt?}{24}{subsubsection.5.2.2}%
-\contentsline {subsubsection}{\numberline {5.2.3}How do I ensure the user stacks consistency?}{25}{subsubsection.5.2.3}%
-\contentsline {subsubsection}{\numberline {5.2.4}How do you store and load a thread's context?}{26}{subsubsection.5.2.4}%
-\contentsline {subsection}{\numberline {5.3}Integration With The Virtual Keyboard}{28}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4}Sheduling}{28}{subsection.5.4}%
-\contentsline {subsection}{\numberline {5.5}Evaluation of threading system}{29}{subsection.5.5}%
-\contentsline {section}{\numberline {6}Reflection and Conclusions}{30}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Project Goals}{30}{subsection.6.1}%
-\contentsline {subsubsection}{\numberline {6.1.1}Objective 1}{30}{subsubsection.6.1.1}%
-\contentsline {subsubsection}{\numberline {6.1.2}Objective 2}{30}{subsubsection.6.1.2}%
-\contentsline {subsubsection}{\numberline {6.1.3}Objective 3}{30}{subsubsection.6.1.3}%
-\contentsline {section}{\numberline {7}References}{31}{section.7}%
+\contentsline {subsection}{\numberline {4.6}Data Structures and Unit testing}{21}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}Evaluation}{21}{subsection.4.7}%
+\contentsline {section}{\numberline {5}Implementing Thread Switching}{23}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Thread Switching In Unix}{23}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}The Challenges of Thread Switching}{24}{subsection.5.2}%
+\contentsline {subsubsection}{\numberline {5.2.1}When is the time-slicing procedure called?}{25}{subsubsection.5.2.1}%
+\contentsline {subsubsection}{\numberline {5.2.2}When can I safely interrupt?}{25}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}How do I ensure the user stack's consistency?}{26}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.4}How do you store and load a thread's context?}{27}{subsubsection.5.2.4}%
+\contentsline {subsection}{\numberline {5.3}Integration With The Virtual Keyboard}{29}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Scheduling}{29}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Evaluation of threading system}{30}{subsection.5.5}%
+\contentsline {section}{\numberline {6}Reflection and Conclusions}{31}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Evaluation of Project Strategy.}{31}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Project Goals}{31}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Objective 1}{31}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Objective 2}{31}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}Objective 3}{32}{subsubsection.6.2.3}%

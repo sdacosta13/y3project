@@ -23,19 +23,20 @@
 \BOOKMARK [2][-]{subsection.4.4}{The SVC Handler}{section.4}% 23
 \BOOKMARK [2][-]{subsection.4.5}{The Reset Handler}{section.4}% 24
 \BOOKMARK [2][-]{subsection.4.6}{Data Structures and Unit testing}{section.4}% 25
-\BOOKMARK [1][-]{section.5}{Implementing Thread Switching}{}% 26
-\BOOKMARK [2][-]{subsection.5.1}{Thread Switching In Unix}{section.5}% 27
-\BOOKMARK [2][-]{subsection.5.2}{The Challenges of Thread Switching}{section.5}% 28
-\BOOKMARK [3][-]{subsubsection.5.2.1}{When is the time-slicing procedure called?}{subsection.5.2}% 29
-\BOOKMARK [3][-]{subsubsection.5.2.2}{When can I safely interrupt?}{subsection.5.2}% 30
-\BOOKMARK [3][-]{subsubsection.5.2.3}{How do I ensure the user stacks consistency?}{subsection.5.2}% 31
-\BOOKMARK [3][-]{subsubsection.5.2.4}{How do you store and load a thread's context?}{subsection.5.2}% 32
-\BOOKMARK [2][-]{subsection.5.3}{Integration With The Virtual Keyboard}{section.5}% 33
-\BOOKMARK [2][-]{subsection.5.4}{Sheduling}{section.5}% 34
-\BOOKMARK [2][-]{subsection.5.5}{Evaluation of threading system}{section.5}% 35
-\BOOKMARK [1][-]{section.6}{Reflection and Conclusions}{}% 36
-\BOOKMARK [2][-]{subsection.6.1}{Project Goals}{section.6}% 37
-\BOOKMARK [3][-]{subsubsection.6.1.1}{Objective 1}{subsection.6.1}% 38
-\BOOKMARK [3][-]{subsubsection.6.1.2}{Objective 2}{subsection.6.1}% 39
-\BOOKMARK [3][-]{subsubsection.6.1.3}{Objective 3}{subsection.6.1}% 40
-\BOOKMARK [1][-]{section.7}{References}{}% 41
+\BOOKMARK [2][-]{subsection.4.7}{Evaluation}{section.4}% 26
+\BOOKMARK [1][-]{section.5}{Implementing Thread Switching}{}% 27
+\BOOKMARK [2][-]{subsection.5.1}{Thread Switching In Unix}{section.5}% 28
+\BOOKMARK [2][-]{subsection.5.2}{The Challenges of Thread Switching}{section.5}% 29
+\BOOKMARK [3][-]{subsubsection.5.2.1}{When is the time-slicing procedure called?}{subsection.5.2}% 30
+\BOOKMARK [3][-]{subsubsection.5.2.2}{When can I safely interrupt?}{subsection.5.2}% 31
+\BOOKMARK [3][-]{subsubsection.5.2.3}{How do I ensure the user stack's consistency?}{subsection.5.2}% 32
+\BOOKMARK [3][-]{subsubsection.5.2.4}{How do you store and load a thread's context?}{subsection.5.2}% 33
+\BOOKMARK [2][-]{subsection.5.3}{Integration With The Virtual Keyboard}{section.5}% 34
+\BOOKMARK [2][-]{subsection.5.4}{Scheduling}{section.5}% 35
+\BOOKMARK [2][-]{subsection.5.5}{Evaluation of threading system}{section.5}% 36
+\BOOKMARK [1][-]{section.6}{Reflection and Conclusions}{}% 37
+\BOOKMARK [2][-]{subsection.6.1}{Evaluation of Project Strategy.}{section.6}% 38
+\BOOKMARK [2][-]{subsection.6.2}{Project Goals}{section.6}% 39
+\BOOKMARK [3][-]{subsubsection.6.2.1}{Objective 1}{subsection.6.2}% 40
+\BOOKMARK [3][-]{subsubsection.6.2.2}{Objective 2}{subsection.6.2}% 41
+\BOOKMARK [3][-]{subsubsection.6.2.3}{Objective 3}{subsection.6.2}% 42

@@ -3,7 +3,8 @@
 \bibitem{os}
 W~Stallings.
 \newblock {\em {Operating Systems}}.
-\newblock 2011.
+\newblock Pearson Education, 2011.
+\newblock ISBN: 978-0273751502.
 
 \bibitem{windows}
 {Windows [Operating System]}.
@@ -24,7 +25,8 @@ Linus Torvalds.
 \bibitem{process}
 Daniel P.Bovet \&~Marco Cesati.
 \newblock {\em Understanding the Linux Kernel}.
-\newblock 2005.
+\newblock O'Reilly Media, 2005.
+\newblock ISBN: 978-0596005658.
 
 \bibitem{kmd}
 {KMD - Komodo Manchester Debugger}.
@@ -52,11 +54,13 @@ The American National~Standards Institute.
 Brian~W Kernighan and Dennis~M Ritchie.
 \newblock {\em The C programming language}.
 \newblock {Prentice Hall PTR}, 2006.
+\newblock ISBN: 978-0131103627.
 
 \bibitem{datasheet}
 Ltd Hitachi.
-\newblock {\em HD44780U (LCD-II) (Dot Matrix Liquid Crystal Display
-  Controller/Driver)}, 1998.
+\newblock {\em {HD44780U (LCD-II) (Dot Matrix Liquid Crystal Display
+  Controller/Driver)}}, 1998.
+\newblock https://www.sparkfun.com/datasheets/LCD/HD44780.pdf.
 
 \bibitem{junit}
 {JUnit Homepage}.
@@ -81,6 +85,7 @@ Ltd Hitachi.
 \bibitem{arm_man}
 {\em ARM Assembly Language, 2nd Edition}.
 \newblock CRC Press, 2014.
+\newblock ISBN: 978-1482229851.
 
 \bibitem{CFS}
 {CFS: Completely fair process scheduling in Linux}.
